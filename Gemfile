@@ -12,6 +12,8 @@ gem 'rails', '~> 5.1.6'
 # gem 'sqlite3'
 # Or use postgres instead
 gem 'pg'
+# Use this gem to hide stuffs
+gem 'dotenv-rails'
 # Use Puma as the app server
 gem 'puma', '~> 3.7'
 # Use SCSS for stylesheets
