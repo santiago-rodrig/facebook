@@ -14,10 +14,10 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'it has reset_password_set_at as an attribute' do
-    assert User.column_names.include? 'reset_password_sent_at as an attribute'
+    assert User.column_names.include? 'reset_password_sent_at'
   end
 
   test 'it has remember_created_at as an attribute' do
-    assert User.column_names.include? 'remember_created_at as an attribute'
+    assert User.column_names.include? 'remember_created_at'
   end
 end
