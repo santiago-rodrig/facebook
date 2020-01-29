@@ -57,4 +57,8 @@ class UserTest < ActiveSupport::TestCase
     @user = User.create(email: 'example@host.net', password: 'secret', password_confirmation: 'secret')
     assert_equal @user.image_url, 'https://www.gravatar.com/avatar/' + Digest::MD5.hexdigest('example@host.net')
   end
+
+  test 'it has many posts' do
+    assert_respond_to User.new, :posts
+  end
 end
