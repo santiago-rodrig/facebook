@@ -40,6 +40,9 @@ gem 'jbuilder', '~> 2.5'
 gem 'devise'
 # Use facebook omniauth
 gem 'omniauth-facebook'
+# Use bootstrap 3
+gem 'bootstrap-sass', '~> 3.4.1'
+gem 'sassc-rails', '>= 2.1.0'
 
 group :development do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
