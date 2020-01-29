@@ -10,8 +10,12 @@
 
   <body>
     <%# <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path %1> %>
-    <%= render 'layouts/navigation' %>
+    <% if user_signed_in? %>
+      <%= render 'layouts/navigation' %>
+    <% end %>
     <%= render 'layouts/alerts' %>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>
