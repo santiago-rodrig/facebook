@@ -45,6 +45,26 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'ul.user-info li', text: @user.email
   end
 
+  test '#show should display the user first_name in the info list' do
+    get user_path(@user)
+    assert_select 'ul.user-info li', text: @user.first_name
+  end
+
+  test '#show should display the user last_name in the info list' do
+    get user_path(@user)
+    assert_select 'ul.user-info li', text: @user.last_name
+  end
+
+  test '#show should display the user birthday in the info list' do
+    get user_path(@user)
+    assert_select 'ul.user-info li'
+  end
+
+  test '#show should display the user gender in the info list' do
+    get user_path(@user)
+    assert_select 'ul.user-info li'
+  end
+
   test '#show should display a link to edit the user' do
     get user_path(@user)
     assert_select 'a[href=?]', edit_user_path(@user)
