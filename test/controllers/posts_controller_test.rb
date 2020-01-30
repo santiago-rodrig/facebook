@@ -127,4 +127,43 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     get edit_post_path(@post)
     assert_response(:success)
   end
+
+  test '#edit sets the @post' do
+    get edit_post_path(@post)
+    assert_equal assigns(:post), @post
+  end
+
+  test '#edit displays a form' do
+    get edit_post_path(@post)
+    assert_select 'form'
+  end
+
+  test '#edit displays a text field for the title' do
+    get edit_post_path(@post)
+    assert_select 'form input[type="text"]#post_title'
+  end
+
+  test '#edit displays a textarea for the content' do
+    get edit_post_path(@post)
+    assert_select 'form textarea#post_content'
+  end
+
+  test '#edit displays a submit button' do
+    get edit_post_path(@post)
+    assert_select 'form button[type="submit"]'
+  end
+
+  test 'should #update a post' do
+    title = @post.title
+    put(
+      post_path(@post),
+      params: {
+        id: @post.id,
+        post: {
+          title: 'Other title'
+        }
+      }
+    )
+    assert_not_equal assigns(:post).title, @post.title
+  end
 end
