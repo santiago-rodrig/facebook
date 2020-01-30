@@ -144,6 +144,18 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test '#show displays a delete link if the current user is the author' do
+    get post_path(@post)
+    assert_select 'a[href=?]', post_path(@post), text: 'Delete'
+    @other = User.create(
+      email: 'john@doe.ar',
+      first_name: 'John',
+      last_name: 'Doe',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
+    @post_2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
+    get post_path(@post_2)
+    assert_select 'a[href=?]', post_path(@post),  0, text: 'Delete'
   end
 
   test 'should GET #edit' do
