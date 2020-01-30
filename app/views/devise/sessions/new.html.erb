@@ -1,8 +1,6 @@
-<div class="row">
-  <div class="col-md-6 col-md-offset-3">
+<div class="row mt-5">
+  <div class="col-md-6 col-md-offset-3 full-white pb-4 rounded-corners">
     <h2 class="text-center log-in-header">Log in</h2>
-  </div>
-  <div class="col-md-6 col-md-offset-3">
     <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'form-horizontal', role: 'form' }) do |f| %>
       <div class="field form-group">
         <%= f.label :email, class: 'col-md-2 control-label' %>
@@ -36,11 +34,7 @@
         </div>
       </div>
     <% end %>
-  </div>
-  <div class="col-md-6 col-md-offset-3">
     <hr>
-  </div>
-  <div class="col-md-6 col-md-offset-3">
     <%= render "devise/shared/links" %>
   </div>
 </div>
