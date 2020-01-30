@@ -1,16 +1,13 @@
 <h1 class="mb-3">Your Profile</h1>
 <div class="row">
-  <div class="col-sm-2">
+  <div class="col-md-2">
     <img src="<%= @user.image_url + '?s=120' %>" alt="profile image">
   </div>
-  <div class="col-sm-10">
+  <div class="col-md-10">
     <h3>Account</h3>
     <p><strong>Email</strong>: <%= @user.email %></p>
     <div>
-      <%= link_to 'Change email', edit_user_registration_path(@user) %>
-    </div>
-    <div>
-      <%= link_to 'Change password', edit_user_password_path(@user) %>
+      <%= link_to 'Edit account (email and password)', edit_user_registration_path(@user) %>
     </div>
     <hr>
     <h3>User</h3>

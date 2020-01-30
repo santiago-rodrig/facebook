@@ -50,11 +50,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', edit_user_registration_path(@user)
   end
 
-  test '#show should display a link to edit the password' do
-    get user_path(@user)
-    assert_select 'a[href=?]', edit_user_password_path(@user)
-  end
-
   test '#show should display the user first_name in the info list' do
     get user_path(@user)
     assert_select 'dl.user-info dd', text: @user.first_name
@@ -105,9 +100,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'form input[type="text"]#user_last_name'
   end
 
-  test '#edit should display a gender text field' do
+  test '#edit should display a gender select' do
     get edit_user_path(@user)
-    assert_select 'form input[type="text"]#user_gender'
+    assert_select 'form select#user_gender'
   end
 
   test '#edit should display a phone text field' do
@@ -135,6 +130,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
         }
       }
     )
-    assert_response(:success)
+    assert_response(:redirect)
   end
 end

@@ -8,7 +8,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <% if %w[sessions registrations].include? controller.controller_name %>
+  <% if %w[sessions registrations].include? controller.controller_name && controller.action_name == 'new' %>
     <body class="full-black">
   <% else %>
     <body>

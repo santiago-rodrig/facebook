@@ -17,7 +17,7 @@
       <div class="field form-group">
         <%= f.label :gender %>
         <div>
-          <%= f.text_field :gender, class: 'form-control' %>
+          <%= f.select :gender, [['male', 'male'], ['female', 'female'], ['other', 'other']], { include_blank: true },  class: 'form-control' %>
         </div>
       </div>
       <div class="field form-group">
