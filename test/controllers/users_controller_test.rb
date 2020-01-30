@@ -1,5 +1,6 @@
 require 'test_helper'
 
+# rubocop:disable Metrics/ClassLength
 class UsersControllerTest < ActionDispatch::IntegrationTest
   def setup
     post(
@@ -199,3 +200,4 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user.posts.order('created_at DESC'), assigns(:posts)
   end
 end
+# rubocop:enable Metrics/ClassLength

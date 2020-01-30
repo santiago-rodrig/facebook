@@ -1,5 +1,6 @@
 require 'test_helper'
 
+# rubocop:disable Metrics/ClassLength
 class PostsControllerTest < ActionDispatch::IntegrationTest
   def setup
     Post.delete_all
@@ -115,7 +116,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test '#show should display the name of the author and write time' do
     get post_path(@post)
-    assert_select 'p', match: /.*#{@post.author.full_name}.*#{@post.created_at.to_time.utc.to_s}.*/mi
+    assert_select 'p', match: /.*#{@post.author.full_name}.*#{@post.created_at.to_time.utc}.*/mi
   end
 
   test '#show should display the content of the post' do
@@ -138,8 +139,8 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       password: 'secret',
       password_confirmation: 'secret'
     )
-    @post_2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
-    get post_path(@post_2)
+    @post2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
+    get post_path(@post2)
     assert_select 'a[href=?]', edit_post_path(@post), 0
   end
 
@@ -153,9 +154,9 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       password: 'secret',
       password_confirmation: 'secret'
     )
-    @post_2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
-    get post_path(@post_2)
-    assert_select 'a[href=?]', post_path(@post),  0, text: 'Delete'
+    @post2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
+    get post_path(@post2)
+    assert_select 'a[href=?]', post_path(@post), 0, text: 'Delete'
   end
 
   test 'should GET #edit' do
@@ -189,7 +190,6 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'should #update a post' do
-    title = @post.title
     put(
       post_path(@post),
       params: {
@@ -213,3 +213,4 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to root_path
   end
 end
+# rubocop:enable Metrics/ClassLength

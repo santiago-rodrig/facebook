@@ -1,11 +1,11 @@
 class User < ApplicationRecord
-  before_save -> { self.image_url = 'https://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(self.email) }
+  before_save -> { self.image_url = 'https://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(email) }
   has_many :posts, foreign_key: 'author_id'
   validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-    :recoverable, :rememberable, :validatable
+         :recoverable, :rememberable, :validatable
 
   devise :omniauthable, omniauth_providers: %i[facebook]
 
@@ -20,6 +20,6 @@ class User < ApplicationRecord
   end
 
   def full_name
-    self.first_name + ' ' + self.last_name
+    first_name + ' ' + last_name
   end
 end
