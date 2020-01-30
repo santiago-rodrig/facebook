@@ -32,37 +32,47 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test '#show should display a user info list' do
     get user_path(@user)
-    assert_select 'ul.user-info'
+    assert_select 'dl.user-info'
   end
 
   test '#show should display the user phone in the info list' do
     get user_path(@user)
-    assert_select 'ul.user-info li', text: @user.phone
+    assert_select 'dl.user-info dd', text: @user.phone
   end
 
-  test '#show should display the user email in the info list' do
+  test '#show should display the user email in a paragraph' do
     get user_path(@user)
-    assert_select 'ul.user-info li', text: @user.email
+    assert_select 'p', match: /#{@user.email}/
+  end
+
+  test '#show should display a link to edit the registration info' do
+    get user_path(@user)
+    assert_select 'a[href=?]', edit_user_registration_path(@user)
+  end
+
+  test '#show should display a link to edit the password' do
+    get user_path(@user)
+    assert_select 'a[href=?]', edit_user_password_path(@user)
   end
 
   test '#show should display the user first_name in the info list' do
     get user_path(@user)
-    assert_select 'ul.user-info li', text: @user.first_name
+    assert_select 'dl.user-info dd', text: @user.first_name
   end
 
   test '#show should display the user last_name in the info list' do
     get user_path(@user)
-    assert_select 'ul.user-info li', text: @user.last_name
+    assert_select 'dl.user-info dd', text: @user.last_name
   end
 
   test '#show should display the user birthday in the info list' do
     get user_path(@user)
-    assert_select 'ul.user-info li'
+    assert_select 'dl.user-info dd', text: @user.birthday.to_s
   end
 
   test '#show should display the user gender in the info list' do
     get user_path(@user)
-    assert_select 'ul.user-info li'
+    assert_select 'dl.user-info dd', text: @user.gender
   end
 
   test '#show should display a link to edit the user' do
@@ -78,6 +88,41 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test '#edit should assign the @user' do
     get edit_user_path(@user)
     assert_equal @user, assigns(:user)
+  end
+
+  test '#edit should display a form' do
+    get edit_user_path(@user)
+    assert_select 'form'
+  end
+
+  test '#edit should display a first name text field' do
+    get edit_user_path(@user)
+    assert_select 'form input[type="text"]#user_first_name'
+  end
+
+  test '#edit should display a last name text field' do
+    get edit_user_path(@user)
+    assert_select 'form input[type="text"]#user_last_name'
+  end
+
+  test '#edit should display a gender text field' do
+    get edit_user_path(@user)
+    assert_select 'form input[type="text"]#user_gender'
+  end
+
+  test '#edit should display a phone text field' do
+    get edit_user_path(@user)
+    assert_select 'form input[type="text"]#user_phone'
+  end
+
+  test '#edit should display a birthday date field' do
+    get edit_user_path(@user)
+    assert_select 'form input[type="date"]#user_birthday'
+  end
+
+  test '#edit should display a submit button' do
+    get edit_user_path(@user)
+    assert_select 'form button[type="submit"]'
   end
 
   test 'should patch #update' do

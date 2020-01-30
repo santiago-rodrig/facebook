@@ -1,6 +1,6 @@
 <div class="row mt-5">
   <div class="col-md-6 col-md-offset-3 full-white pb-4 rounded-corners pt-2">
-    <h2 class="text-center mb-3">Sign up</h2>
+    <h1 class="text-center mb-3">Sign up</h1>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { role: 'form' }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
@@ -29,9 +29,7 @@
       </div>
 
       <div class="form-group">
-        <div>
-          <%= f.button "Sign up", class: 'btn btn-success' %>
-        </div>
+        <%= f.button "Sign up", class: 'btn btn-success' %>
       </div>
     <% end %>
     <hr>
