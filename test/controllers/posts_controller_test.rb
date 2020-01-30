@@ -59,10 +59,10 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test '#index should list all @posts with author image' do
+  test '#index should list all @posts with author image linked to its profile' do
     get root_url
     assigns(:posts).each do |p|
-      assert_select 'div.well img[src=?]', p.author.image_url + '?s=50'
+      assert_select 'div.well a[href=?] > img[src=?]', user_path(p.author), p.author.image_url + '?s=50'
     end
   end
 
@@ -123,9 +123,9 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'p', text: @post.content
   end
 
-  test '#show displays the image of the author' do
+  test '#show displays the image of the author linked to the profile' do
     get post_path(@post)
-    assert_select 'img[src=?]', @post.author.image_url
+    assert_select 'a[href=?] > img[src=?]', user_path(@post.author), @post.author.image_url
   end
 
   test '#show displays a edit link if the current user is the author' do

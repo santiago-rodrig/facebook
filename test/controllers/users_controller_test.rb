@@ -15,6 +15,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       }
     )
     @user = User.last
+    @other = User.create(
+      email: 'other@hidden.org',
+      first_name: 'stacy',
+      last_name: 'jones',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
   end
 
   test 'should get #show' do
@@ -27,9 +34,14 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user, assigns(:user)
   end
 
-  test '#show should display Your Profile as a heading' do
+  test '#show should display Your Profile as a heading if current user is the same' do
     get user_path(@user)
     assert_select 'h1', text: 'Your Profile'
+  end
+
+  test '#show should display full name Profile as a heading if current user is not the same' do
+    get user_path(@other)
+    assert_select 'h1', text: @other.full_name + ' ' + 'Profile'
   end
 
   test '#show should display a user info list' do
@@ -47,9 +59,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'p', match: /#{@user.email}/
   end
 
-  test '#show should display a link to edit the registration info' do
+  test '#show should display a link to edit the registration info if current user is the same' do
     get user_path(@user)
     assert_select 'a[href=?]', edit_user_registration_path(@user)
+    delete(destroy_user_session_path)
+    post(user_session_path, params: { user: { email: 'other@hidden.org', password: 'secret' } })
+    get user_path(@user)
+    assert_select 'a[href=?]', edit_user_registration_path(@user), 0
   end
 
   test '#show should display the user first_name in the info list' do
@@ -72,9 +88,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'dl.user-info dd', text: @user.gender
   end
 
-  test '#show should display a link to edit the user' do
+  test '#show should display a link to edit the user if current user is the same' do
     get user_path(@user)
     assert_select 'a[href=?]', edit_user_path(@user)
+    delete(destroy_user_session_path)
+    post(user_session_path, params: { user: { email: 'other@hidden.org', password: 'secret' } })
+    get user_path(@user)
+    assert_select 'a[href=?]', edit_user_path(@user), 0
   end
 
   test 'should get #edit' do

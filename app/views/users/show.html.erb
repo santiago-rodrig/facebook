@@ -1,4 +1,8 @@
-<h1 class="mb-3 text-center">Your Profile</h1>
+<% if current_user == @user %>
+  <h1 class="mb-3 text-center">Your Profile</h1>
+<% else %>
+  <h1 class="mb-3 text-center"><%= @user.full_name %> Profile</h1>
+<% end %>
 <div class="row">
   <div class="col-sm-3 col-md-2">
     <img src="<%= @user.image_url + '?s=120' %>" alt="profile image">
