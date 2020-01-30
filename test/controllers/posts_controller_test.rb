@@ -115,12 +115,35 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test '#show should display the name of the author and write time' do
     get post_path(@post)
-    assert_select 'p', text: "Written by #{@post.author.first_name} #{@post.author.last_name} on #{@post.created_at.to_time.to_s}"
+    assert_select 'p', match: /.*#{@post.author.full_name}.*#{@post.created_at.to_time.utc.to_s}.*/mi
   end
 
   test '#show should display the content of the post' do
     get post_path(@post)
     assert_select 'p', text: @post.content
+  end
+
+  test '#show displays the image of the author' do
+    get post_path(@post)
+    assert_select 'img[src=?]', @post.author.image_url
+  end
+
+  test '#show displays a edit link if the current user is the author' do
+    get post_path(@post)
+    assert_select 'a[href=?]', edit_post_path(@post)
+    @other = User.create(
+      email: 'john@doe.ar',
+      first_name: 'John',
+      last_name: 'Doe',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
+    @post_2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
+    get post_path(@post_2)
+    assert_select 'a[href=?]', edit_post_path(@post), 0
+  end
+
+  test '#show displays a delete link if the current user is the author' do
   end
 
   test 'should GET #edit' do
@@ -165,5 +188,16 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
       }
     )
     assert_not_equal assigns(:post).title, @post.title
+  end
+
+  test 'should #destroy a user' do
+    assert_difference('Post.count', -1) do
+      delete(post_path(@post))
+    end
+  end
+
+  test '#destroy should redirect to root_path' do
+    delete(post_path(@post))
+    assert_redirected_to root_path
   end
 end
