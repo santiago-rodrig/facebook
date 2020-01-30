@@ -1,0 +1,9 @@
+<div class="col-md-6">
+  <div class="well">
+    <img src="<%= post.author.image_url + '?s=50' %>" alt="profile image" class="pull-left mr-2">
+    <p><%= post.author.full_name %><br><%= post.created_at.to_time.to_s %></p>
+    <h3 class="clear-left mt-3"><%= post.title %></h3>
+    <p><%= truncate(post.content, length: 300) %></p>
+    <p><%= link_to 'Show', post_path(post) %></p>
+  </div>
+</div>

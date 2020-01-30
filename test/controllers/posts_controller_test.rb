@@ -1,6 +1,27 @@
 require 'test_helper'
 
 class PostsControllerTest < ActionDispatch::IntegrationTest
+  def setup
+    Post.delete_all
+    @user = User.create(
+      email: 'example@email.com',
+      first_name: 'bob',
+      last_name: 'sinclair',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
+    @post = @user.posts.create(title: 'The test', content: 'Testing is important')
+    post(
+      user_session_path,
+      params: {
+        user: {
+          email: 'example@email.com',
+          password: 'secret'
+        }
+      }
+    )
+  end
+
   test 'it creates a post' do
     assert_difference('Post.count') do
       post(
@@ -8,39 +29,11 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
         params: {
           post: {
             title: 'The test',
-            content: 'Testing is important',
-            author_id: @user.id
+            content: 'Testing is important'
           }
         }
       )
     end
-  end
-
-  def setup
-    post(
-      user_registration_path,
-      params: {
-        user: {
-          email: 'example@email.com',
-          first_name: 'bob',
-          last_name: 'sinclair',
-          password: 'secret',
-          password_confirmation: 'secret'
-        }
-      }
-    )
-    @user = User.last
-    post(
-      posts_path,
-      params: {
-        post: {
-          title: 'The test',
-          content: 'Testing is important',
-          author_id: @user.id
-        }
-      }
-    )
-    @post = Post.last
   end
 
   test 'root should go to posts index' do
@@ -52,6 +45,32 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   test '#index should set all @posts' do
     get root_url
     assert_equal Post.all, assigns(:posts)
+  end
+
+  test '#index should display All Posts as a heading' do
+    get root_url
+    assert_select 'h1', text: 'All Posts'
+  end
+
+  test '#index should list all @posts' do
+    get root_url
+    assigns(:posts).each do |p|
+      assert_select 'div.well', match: /.*#{p.title}.*#{p.content[0...300]}.*/mi
+    end
+  end
+
+  test '#index should list all @posts with author image' do
+    get root_url
+    assigns(:posts).each do |p|
+      assert_select 'div.well img[src=?]', p.author.image_url + '?s=50'
+    end
+  end
+
+  test '#index should list all @posts with show link' do
+    get root_url
+    assigns(:posts).each do |p|
+      assert_select 'div.well a[href=?]', post_path(p), text: 'Show'
+    end
   end
 
   test 'should GET #new' do
