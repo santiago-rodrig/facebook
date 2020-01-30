@@ -7,6 +7,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       params: {
         user: {
           email: 'example@email.com',
+          first_name: 'bob',
+          last_name: 'sinclair',
           password: 'secret',
           password_confirmation: 'secret'
         }
@@ -136,5 +138,24 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'should get #index' do
     get users_path
     assert_response(:success)
+  end
+
+  test '#index should set @users variable' do
+    get users_path
+    assert_equal User.all, assigns(:users)
+  end
+
+  test '#index should display all user names' do
+    get users_path
+    assigns(:users).each do |user|
+      assert_select 'dd', text: "#{user.first_name} #{user.last_name}"
+    end
+  end
+
+  test '#index should display links to view profile for every user' do
+    get users_path
+    assigns(:users).each do |user|
+      assert_select 'a[href=?]', user_path(user)
+    end
   end
 end
