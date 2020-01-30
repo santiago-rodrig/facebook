@@ -132,4 +132,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     )
     assert_response(:redirect)
   end
+
+  test 'should get #index' do
+    get users_path
+    assert_response(:success)
+  end
 end

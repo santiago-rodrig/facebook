@@ -44,6 +44,8 @@ gem 'omniauth-facebook'
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'sassc-rails', '>= 2.1.0'
 gem 'jquery-rails'
+# Nice tabular formatting in console
+gem 'hirb'
 
 group :development do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

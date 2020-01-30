@@ -12,6 +12,20 @@
       </div>
 
       <div class="field form-group">
+        <%= f.label :first_name %>
+        <div>
+          <%= f.text_field :first_name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="field form-group">
+        <%= f.label :last_name %>
+        <div>
+          <%= f.text_field :last_name, class: 'form-control' %>
+        </div>
+      </div>
+
+      <div class="field form-group">
         <%= f.label :password %>
         <% if @minimum_password_length %>
           <em>(<%= @minimum_password_length %> characters minimum)</em>

@@ -101,6 +101,7 @@ GEM
       guard-compat (~> 1.2)
       minitest (>= 3.0)
     hashie (3.6.0)
+    hirb (0.7.3)
     i18n (1.8.2)
       concurrent-ruby (~> 1.0)
     jbuilder (2.9.1)
@@ -269,6 +270,7 @@ DEPENDENCIES
   dotenv-rails
   guard
   guard-minitest
+  hirb
   jbuilder (~> 2.5)
   jquery-rails
   listen (>= 3.0.5, < 3.2)
