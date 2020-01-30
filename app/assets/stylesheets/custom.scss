@@ -9,9 +9,13 @@
 
 .full-white { background-color: #f2f4f7; }
 
-.pb-5 { padding-bottom: 50px !important; }
+.pb-5 { padding-bottom: 50px; }
 
-.pb-4 { padding-bottom: 40px !important; }
+.pb-4 { padding-bottom: 40px; }
+
+.pt-4 { padding-top: 40px; }
+
+.pt-2 { padding-top: 20px; }
 
 .rounded-corners {
   @media (min-width: 768px) { border-radius: 20px; }
