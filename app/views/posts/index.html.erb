@@ -1,4 +1,4 @@
-<h1 class="text-center mb-3">All Posts</h1>
+<h1 class="text-center mb-3"><%= @of_who %> Posts</h1>
 <div class="row">
-  <%= render partial: 'post', collection: @posts %>
+  <%= render partial: 'posts/post', collection: @posts %>
 </div>

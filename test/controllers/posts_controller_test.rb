@@ -44,7 +44,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test '#index should set all @posts' do
     get root_url
-    assert_equal Post.all, assigns(:posts)
+    assert_equal Post.recents, assigns(:posts)
   end
 
   test '#index should display All Posts as a heading' do

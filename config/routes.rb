@@ -7,6 +7,9 @@ Rails.application.routes.draw do
     registrations: 'users/registrations'
   }
 
-  resources :users, only: [:index, :show, :edit, :update]
+  resources :users, only: [:index, :show, :edit, :update] do
+    get 'posts', on: :member, to: 'users#user_posts'
+  end
+
   resources :posts
 end

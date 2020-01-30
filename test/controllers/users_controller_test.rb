@@ -158,4 +158,10 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select 'a[href=?]', user_path(user)
     end
   end
+
+  test '#user_posts displays all posts created by the user' do
+    get posts_user_path(@user)
+    assert_response(:success)
+    assert_equal @user.posts.order('created_at DESC'), assigns(:posts)
+  end
 end

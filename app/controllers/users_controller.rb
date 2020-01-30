@@ -22,6 +22,14 @@ class UsersController < ApplicationController
     end
   end
 
+  def user_posts
+    @user = User.find(params[:id])
+    @posts = @user.posts.order('created_at DESC')
+    @of_who = 'Your'
+
+    render template: 'posts/index'
+  end
+
   private
 
   def user_params

@@ -12,7 +12,7 @@
 
     <div class="collapse navbar-collapse" id="navbar-collapse">
       <ul class="nav navbar-nav">
-        <li><%= link_to 'Your posts', '#' %></li>
+        <li><%= link_to 'Your posts', posts_user_path(current_user) %></li>
         <%# <li><%= link_to 'Your friends', '#' %1></li> %>
         <%# <li><%= link_to 'Friend requests', '#' %1></li> %>
         <li><%= link_to 'Create a post', new_post_path %></li>
