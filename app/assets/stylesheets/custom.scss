@@ -1,7 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap";
 
-.log-in-header { margin-bottom: 30px; }
+.mb-3 { margin-bottom: 30px; }
 
 .mt-5 { margin-top: 50px; }
 
@@ -13,4 +13,6 @@
 
 .pb-4 { padding-bottom: 40px !important; }
 
-.rounded-corners { border-radius: 20px; }
+.rounded-corners {
+  @media (min-width: 768px) { border-radius: 20px; }
+}
