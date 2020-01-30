@@ -1,6 +1,6 @@
 <div class="col-md-6">
   <div class="well">
-    <img src="<%= user.image_url %>" alt="profile image" class="pull-left mr-3">
+    <%= link_to "<img src='#{user.image_url}' alt='profile image' class='pull-left mr-3 img-thumbnail'>".html_safe, user_path(user) %>
     <dl class="user-info">
       <dt>Name</dt>
       <dd><%= user.first_name + ' ' + user.last_name %></dd>

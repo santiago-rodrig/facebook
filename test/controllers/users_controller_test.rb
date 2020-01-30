@@ -97,6 +97,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', edit_user_path(@user), 0
   end
 
+  test '#show should display a link to the user posts if the current user is not the same' do
+    get user_path(@other)
+    assert_select 'a[href=?]', posts_user_path(@other)
+    get user_path(@user)
+    assert_select 'img + a[href=?]', posts_user_path(@user), 0
+  end
+
   test 'should get #edit' do
     get edit_user_path(@user)
     assert_response(:success)
@@ -176,6 +183,13 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     get users_path
     assigns(:users).each do |user|
       assert_select 'a[href=?]', user_path(user)
+    end
+  end
+
+  test '#index should display a image linked to the profile' do
+    get users_path
+    assigns(:users).each do |user|
+      assert_select 'a[href=?] > img[src=?]', user_path(user), user.image_url
     end
   end
 

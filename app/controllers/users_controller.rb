@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   def user_posts
     @user = User.find(params[:id])
     @posts = @user.posts.order('created_at DESC')
-    @of_who = 'Your'
+    @of_who = current_user == @user ? 'Your' : @user.full_name
 
     render template: 'posts/index'
   end
