@@ -89,6 +89,21 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response(:success)
   end
 
+  test '#show should display the title of the post' do
+    get post_path(@post)
+    assert_select 'h1', text: @post.title
+  end
+
+  test '#show should display the name of the author and write time' do
+    get post_path(@post)
+    assert_select 'p', text: "Written by #{@post.author.first_name} #{@post.author.last_name} on #{@post.created_at.to_time.to_s}"
+  end
+
+  test '#show should display the content of the post' do
+    get post_path(@post)
+    assert_select 'p', text: @post.content
+  end
+
   test 'should GET #edit' do
     get edit_post_path(@post)
     assert_response(:success)
