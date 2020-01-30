@@ -59,6 +59,11 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_response(:success)
   end
 
+  test '#new should set a @post' do
+    get new_post_path
+    assert assigns(:post)
+  end
+
   test '#new should display a form' do
     get new_post_path
     assert_select 'form'
@@ -72,6 +77,11 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   test '#new should display a textarea for the content' do
     get new_post_path
     assert_select 'form textarea#post_content'
+  end
+
+  test '#new should display a submit button' do
+    get new_post_path
+    assert_select 'form button[type="submit"]'
   end
 
   test 'should GET #show' do
