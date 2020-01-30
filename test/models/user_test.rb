@@ -54,7 +54,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'before saving sets image_url' do
-    @user = User.create(email: 'example@host.net', password: 'secret', password_confirmation: 'secret')
+    @user = User.create(email: 'example@host.net', first_name: 'bob', last_name: 'sinclair', password: 'secret', password_confirmation: 'secret')
     assert_equal @user.image_url, 'https://www.gravatar.com/avatar/' + Digest::MD5.hexdigest('example@host.net')
   end
 

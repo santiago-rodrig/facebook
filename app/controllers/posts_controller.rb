@@ -8,7 +8,17 @@ class PostsController < ApplicationController
   def new
   end
 
+  def show
+  end
+
   def create
+    @post = current_user.posts.build(post_params)
+    if @post.save
+      flash[:success] = 'Post created'
+      redirect_to post_path(@post)
+    else
+      render :new
+    end
   end
 
   def edit
@@ -23,5 +33,6 @@ class PostsController < ApplicationController
   private
 
   def post_params
+    params.require(:post).permit(:title, :content)
   end
 end
