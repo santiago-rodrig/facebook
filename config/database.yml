@@ -14,7 +14,7 @@ default: &default
 
 development:
   <<: *default
-  host: <%= ENV['POSTGRES_HOST'] %>
+  host: localhost
   database: <%= ENV['POSTGRES_DB'] %>
 
 # Warning: The database defined as "test" will be erased and
@@ -22,7 +22,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  host: <%= ENV['POSTGRES_HOST'] %>
+  host: localhost
   database: <%= ENV['POSTGRES_TEST_DB'] %>
 
 production:

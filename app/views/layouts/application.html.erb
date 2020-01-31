@@ -8,9 +8,17 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
-    <%= link_to "Sign in with Facebook", user_facebook_omniauth_authorize_path %>
+  <% if %w[sessions registrations].include?(controller.controller_name) && controller.action_name != 'edit' %>
+    <body class="full-black">
+  <% else %>
+    <body>
+  <% end %>
+    <% if user_signed_in? %>
+      <%= render 'layouts/navigation' %>
+    <% end %>
     <%= render 'layouts/alerts' %>
-    <%= yield %>
+    <div class="container">
+      <%= yield %>
+    </div>
   </body>
 </html>

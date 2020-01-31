@@ -1,0 +1,42 @@
+<% if current_user == @user %>
+  <h1 class="mb-3 text-center">Your Profile</h1>
+<% else %>
+  <h1 class="mb-3 text-center"><%= @user.full_name %> Profile</h1>
+<% end %>
+<div class="row">
+  <div class="col-sm-3 col-md-2">
+    <img src="<%= @user.image_url + '?s=120' %>" alt="profile image" class="img-thumbnail">
+    <% unless current_user == @user %>
+      <p class="mt-3"><%= link_to 'Posts', posts_user_path(@user) %></p>
+    <% end %>
+  </div>
+  <div class="col-sm-5 col-md-3">
+    <h3>Account</h3>
+    <p><strong>Email</strong>: <%= @user.email %></p>
+    <% if current_user == @user %>
+      <div>
+        <%= link_to 'Edit account (email and password)', edit_user_registration_path(@user) %>
+      </div>
+    <% end %>
+  </div>
+  <div class="col-sm-4 col-md-7">
+    <h3>User</h3>
+    <dl class="user-info">
+      <dt>First name</dt>
+      <dd><%= @user.first_name %></dd>
+      <dt>Last name</dt>
+      <dd><%= @user.last_name %></dd>
+      <dt>Phone number</dt>
+      <dd><%= @user.phone %></dd>
+      <dt>Gender</dt>
+      <dd><%= @user.gender %></dd>
+      <dt>Birthday</dt>
+      <dd><%= @user.birthday %></dd>
+    </dl>
+    <% if current_user == @user %>
+      <div>
+        <%= link_to 'Edit user information', edit_user_path(@user) %>
+      </div>
+    <% end %>
+  </div>
+</div>

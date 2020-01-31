@@ -1,2 +1,4 @@
-<h1>Posts#index</h1>
-<p>Find me in app/views/posts/index.html.erb</p>
+<h1 class="text-center mb-3"><%= @of_who %> Posts</h1>
+<div class="row">
+  <%= render partial: 'posts/post', collection: @posts %>
+</div>
