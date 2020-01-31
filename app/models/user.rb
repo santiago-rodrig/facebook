@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   before_save -> { self.image_url = 'https://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(email) }
   has_many :posts, foreign_key: 'author_id'
+  has_many :likes, foreign_key: 'liker_id'
+  has_many :liked_posts, through: :likes, source: :liked_post
   validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
