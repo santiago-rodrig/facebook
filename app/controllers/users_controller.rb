@@ -30,6 +30,14 @@ class UsersController < ApplicationController
     render template: 'posts/index'
   end
 
+  def like_post
+    @post = Post.find(params[:post_id])
+    @user = User.find(params[:id])
+    @user.like(@post)
+
+    redirect_back(fallback_location: root_path)
+  end
+
   private
 
   def user_params

@@ -24,4 +24,8 @@ class User < ApplicationRecord
   def full_name
     first_name + ' ' + last_name
   end
+
+  def like(post)
+    self.liked_posts << post
+  end
 end

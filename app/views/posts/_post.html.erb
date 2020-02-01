@@ -5,5 +5,6 @@
     <h3 class="clear-left mt-3"><%= post.title %></h3>
     <p><%= truncate(post.content, length: 300) %></p>
     <p><%= link_to 'Show', post_path(post) %></p>
+    <p><%= link_to 'Like', like_post_user_path(id: current_user.id, post_id: post.id), method: :post %></p>
   </div>
 </div>

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:index, :show, :edit, :update] do
     get 'posts', on: :member, to: 'users#user_posts'
+    post 'like_post', on: :member, to: 'users#like_post'
   end
 
   resources :posts
