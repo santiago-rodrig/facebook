@@ -5,7 +5,11 @@
     <%= link_to "<h3 class='clear-left mt-3'>#{post.title}</h3>".html_safe, post_path(post) %>
     <p><%= truncate(post.content, length: 300) %></p>
     <p>
-    <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: post.id), method: :post, class: 'btn btn-primary' %>
+    <% if post.likers.include? current_user %>
+      <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: post.id), method: :post, class: 'btn btn-primary', disabled: true %>
+    <% else %>
+      <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: post.id), method: :post, class: 'btn btn-primary' %>
+    <% end %>
     <span class="badge"><%= post.likers.count %></span>
     </p>
   </div>

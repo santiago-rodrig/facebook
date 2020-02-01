@@ -3,7 +3,11 @@
     <%= link_to "<img src='#{@post.author.image_url}' alt='profile image' class='img-thumbnail'>".html_safe, user_path(@post.author) %>
     <p class="mt-3"><%= @post.author.full_name %><br><%= @post.created_at.to_time.utc.to_s %></p>
     <p>
-    <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary' %>
+    <% if @post.likers.include? current_user %>
+      <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary', disabled: true %>
+    <% else %>
+      <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary' %>
+    <% end %>
     <span class="badge"><%= @post.likers.count %></span>
     </p>
     <% if current_user == @post.author %>

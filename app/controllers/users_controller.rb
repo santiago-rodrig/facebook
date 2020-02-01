@@ -33,7 +33,10 @@ class UsersController < ApplicationController
   def like_post
     @post = Post.find(params[:post_id])
     @user = User.find(params[:id])
-    @user.like(@post)
+
+    unless @post.likers.include? @user
+      @user.like(@post)
+    end
 
     redirect_back(fallback_location: root_path)
   end
