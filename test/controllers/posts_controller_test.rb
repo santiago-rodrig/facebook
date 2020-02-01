@@ -70,7 +70,21 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
   test '#index should list all @posts with show link' do
     get root_url
     assigns(:posts).each do |p|
-      assert_select 'div.well a[href=?]', post_path(p), text: 'Show'
+      assert_select 'div.well a[href=?]', post_path(p)
+    end
+  end
+
+  test '#index should show a link to like the post' do
+    get root_url
+    assigns(:posts).each do |p|
+      assert_select 'div.well a[href=?]', like_post_user_path(id: @user.id, post_id: p.id)
+    end
+  end
+
+  test '#index should show the number of likes' do
+    get root_url
+    assigns(:posts).each do |p|
+      assert_select 'div.well span.badge', text: p.likers.count.to_s
     end
   end
 
