@@ -1,15 +1,24 @@
-<div class="row mt-3 full-black">
-  <div class="col-md-3 text-center pt-4">
+<div class="row mt-3">
+  <div class="col-md-3 text-center pt-4 pb-4 full-black">
     <%= link_to "<img src='#{@post.author.image_url}' alt='profile image' class='img-thumbnail'>".html_safe, user_path(@post.author) %>
     <p class="mt-3"><%= @post.author.full_name %><br><%= @post.created_at.to_time.utc.to_s %></p>
+    <p>
+    <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary' %>
+    <span class="badge"><%= @post.likers.count %></span>
+    </p>
     <% if current_user == @post.author %>
-      <p>
-      <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary' %>
-      <%= link_to 'Delete', post_path(@post), method: :delete, class: 'btn btn-danger' %>
-      </p>
+      <div class="panel panel-info actions">
+        <div class="panel-heading">
+          Post managing
+        </div>
+        <div class="panel-body">
+          <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary' %>
+          <%= link_to 'Delete', post_path(@post), method: :delete, class: 'btn btn-danger' %>
+        </div>
+      </div>
     <% end %>
   </div>
-  <div class="col-md-9 full-white post-info pl-4">
+  <div class="col-md-9 full-white post-info pl-4 pb-4">
     <h1 class="text-center mb-3"><%= @post.title %></h1>
     <div class="post-content"><%= simple_format(@post.content) %></div>
   </div>
