@@ -48,6 +48,9 @@ gem 'hirb'
 gem 'rubocop'
 # Faker for populating the database
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
+# Pagination with bootstrap
+gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap'
 
 group :development do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

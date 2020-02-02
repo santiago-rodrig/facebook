@@ -43,9 +43,14 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal controller.action_name, 'index'
   end
 
-  test '#index should set all @posts' do
+  test '#index should set first_half' do
     get root_url
-    assert_equal Post.recents, assigns(:posts)
+    assert_not_nil assigns(:first_half)
+  end
+
+  test '#index should set second_half' do
+    get root_url
+    assert_not_nil assigns(:second_half)
   end
 
   test '#index should display All Posts as a heading' do
@@ -55,28 +60,49 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test '#index should list all @posts' do
     get root_url
-    assigns(:posts).each do |p|
+
+    assigns(:first_half).each do |p|
+      assert_select 'div.well', match: /.*#{p.title}.*#{p.content[0...300]}.*/mi
+    end
+
+    assigns(:second_half).each do |p|
       assert_select 'div.well', match: /.*#{p.title}.*#{p.content[0...300]}.*/mi
     end
   end
 
   test '#index should list all @posts with author image linked to its profile' do
     get root_url
-    assigns(:posts).each do |p|
+
+    assigns(:first_half).each do |p|
+      assert_select 'div.well a[href=?] > img[src=?]', user_path(p.author), p.author.image_url + '?s=50'
+    end
+
+    assigns(:second_half).each do |p|
       assert_select 'div.well a[href=?] > img[src=?]', user_path(p.author), p.author.image_url + '?s=50'
     end
   end
 
   test '#index should list all @posts with #show link' do
     get root_url
-    assigns(:posts).each do |p|
+
+    assigns(:first_half).each do |p|
+      assert_select 'div.well a[href=?] h3', post_path(p)
+    end
+
+    assigns(:second_half).each do |p|
       assert_select 'div.well a[href=?] h3', post_path(p)
     end
   end
 
   test '#index should show the number of likes' do
     get root_url
-    assigns(:posts).each do |p|
+
+    assigns(:first_half).each do |p|
+      assert_select 'div.well span.glyphicon.glyphicon-thumbs-up'
+      assert_select 'div.well span.badge', text: p.likers.count.to_s
+    end
+
+    assigns(:second_half).each do |p|
       assert_select 'div.well span.glyphicon.glyphicon-thumbs-up'
       assert_select 'div.well span.badge', text: p.likers.count.to_s
     end

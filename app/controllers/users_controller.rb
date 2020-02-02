@@ -24,8 +24,16 @@ class UsersController < ApplicationController
 
   def user_posts
     @user = User.find(params[:id])
-    @posts = @user.posts.order('created_at DESC')
     @of_who = current_user == @user ? 'Your' : @user.full_name
+    @posts = @user.posts.recents.paginate(page: params[:page], per_page: 10)
+
+    if params[:page]
+      @first_half = @posts.offset(10 * (params[:page].to_i - 1)).first(5)
+      @second_half = @posts.offset(10 * (params[:page].to_i - 1) + 5).first(5)
+    else
+      @first_half = @posts.first(5)
+      @second_half = @posts.offset(5).first(5)
+    end
 
     render template: 'posts/index'
   end

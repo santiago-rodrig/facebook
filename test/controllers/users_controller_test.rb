@@ -197,7 +197,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   test '#user_posts displays all posts created by the user' do
     get posts_user_path(@user)
     assert_response(:success)
-    assert_equal @user.posts.order('created_at DESC'), assigns(:posts)
+    assert_not_nil assigns(:first_half)
+    assert_not_nil assigns(:second_half)
   end
 end
 # rubocop:enable Metrics/ClassLength
