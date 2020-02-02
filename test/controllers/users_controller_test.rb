@@ -170,27 +170,41 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test '#index should set @users variable' do
     get users_path
-    assert_equal User.all, assigns(:users)
+    assert_not_nil assigns(:users)
   end
 
   test '#index should display all user names' do
     get users_path
-    assigns(:users).each do |user|
-      assert_select 'dd', text: "#{user.first_name} #{user.last_name}"
-    end
-  end
 
-  test '#index should display links to view profile for every user' do
-    get users_path
-    assigns(:users).each do |user|
-      assert_select 'a[href=?]', user_path(user)
+    (assigns(:first_half) + assigns(:second_half)).each do |user|
+      assert_select 'dt', text: 'Name'
+      assert_select 'dd', text: "#{user.first_name} #{user.last_name}"
     end
   end
 
   test '#index should display a image linked to the profile' do
     get users_path
-    assigns(:users).each do |user|
+
+    (assigns(:first_half) + assigns(:second_half)).each do |user|
       assert_select 'a[href=?] > img[src=?]', user_path(user), user.image_url
+    end
+  end
+
+  test '#index should display the number of posts of the user' do
+    get users_path
+
+    (assigns(:first_half) + assigns(:second_half)).each do |user|
+      assert_select 'dt', text: 'Posts'
+      assert_select 'dd', text: user.posts.count.to_s
+    end
+  end
+
+  test '#index should display the number of likes for the user' do
+    get users_path
+
+    (assigns(:first_half) + assigns(:second_half)).each do |user|
+      assert_select 'dt', text: 'Likes'
+      assert_select 'dd', text: user.total_likes.to_s
     end
   end
 
