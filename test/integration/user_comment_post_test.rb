@@ -58,7 +58,7 @@ class UserCommentPostTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to post_path(@post)
     follow_redirect!
-    assert_equal @post.comments, assigns(:comments)
+    assert_equal @post.comments.order('created_at DESC'), assigns(:comments)
     assert_select 'div.panel-default div.panel-heading a[href=?]', user_path(@user)
     assert_select 'div.panel-default div.panel-heading', match: /#{@user.full_name}.*on.*#{Time.now.utc.to_s}/mi
     assert_select 'div.panel-default div.panel-body', text: Comment.last.body
