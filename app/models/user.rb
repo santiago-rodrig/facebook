@@ -28,14 +28,18 @@ class User < ApplicationRecord
   end
 
   def like(post)
-    self.liked_posts << post
+    liked_posts << post
   end
 
   def unlike(post)
-    self.liked_posts.delete(post)
+    liked_posts.delete(post)
   end
 
   def comment(post, body)
     comments.create(body: body, commented_post_id: post.id)
+  end
+
+  def total_likes
+    posts.inject(0) { |t, p| t + p.likers.count }
   end
 end

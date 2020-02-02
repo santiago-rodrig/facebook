@@ -2,7 +2,15 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @users = User.all
+    @users = User.paginate(page: params[:page], per_page: 10)
+
+    if params[:page]
+      @first_half = @users.offset(10 * (params[:page].to_i - 1)).first(5)
+      @second_half = @users.offset(10 * (params[:page].to_i - 1) + 5).first(5)
+    else
+      @first_half = @users.first(5)
+      @second_half = @users.offset(5).first(5)
+    end
   end
 
   def show
