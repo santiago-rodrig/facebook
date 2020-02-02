@@ -7,7 +7,7 @@
         <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-success', disabled: true %>
         <%= link_to "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'</span>".html_safe, unlike_post_user_path(id: current_user.id, post_id: @post.id), method: :delete, class: 'btn btn-danger' %>
       <% else %>
-        <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary' %>
+        <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-success' %>
         <%= link_to "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'</span>".html_safe, unlike_post_user_path(id: current_user.id, post_id: @post.id), method: :delete, class: 'btn btn-danger', disabled: true %>
       <% end %>
     </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="panel-body">
           <%= link_to 'Edit', edit_post_path(@post), class: 'btn btn-primary' %>
-          <%= link_to 'Delete', post_path(@post), method: :delete, class: 'btn btn-danger' %>
+          <%= link_to 'Delete', post_path(@post), method: :delete, class: 'btn btn-danger', data: { confirm: 'Are you sure?' } %>
         </div>
       </div>
     <% end %>
