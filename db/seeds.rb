@@ -6,6 +6,11 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+# Starting fresh
+User.delete_all
+Post.delete_all
+Comment.delete_all
+Like.delete_all
 # Creates 10 random generated users with posts
 10.times do
   pass = Faker::Internet.password(min_length: 6)
