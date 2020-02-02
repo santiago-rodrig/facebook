@@ -37,7 +37,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test 'root should go to posts index' do
+  test 'root should go to posts#index' do
     get root_url
     assert_equal controller.controller_name, 'posts'
     assert_equal controller.action_name, 'index'
@@ -67,23 +67,17 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
-  test '#index should list all @posts with show link' do
+  test '#index should list all @posts with #show link' do
     get root_url
     assigns(:posts).each do |p|
-      assert_select 'div.well a[href=?]', post_path(p)
-    end
-  end
-
-  test '#index should show a link to like the post' do
-    get root_url
-    assigns(:posts).each do |p|
-      assert_select 'div.well a[href=?]', like_post_user_path(id: @user.id, post_id: p.id)
+      assert_select 'div.well a[href=?] h3', post_path(p)
     end
   end
 
   test '#index should show the number of likes' do
     get root_url
     assigns(:posts).each do |p|
+      assert_select 'div.well span.glyphicon.glyphicon-thumbs-up'
       assert_select 'div.well span.badge', text: p.likers.count.to_s
     end
   end
@@ -180,6 +174,7 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
 
   test '#show displays likes count' do
     get post_path(@post)
+    assert_select 'span.glyphicon.glyphicon-thumbs-up'
     assert_select 'span.badge', text: @post.likers.count.to_s
   end
 

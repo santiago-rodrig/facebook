@@ -18,3 +18,15 @@ div.panel.actions {
   margin-left: auto;
   max-width: 200px;
 }
+
+.like-count {
+  display: flex;
+
+  .badge {
+    margin-left: 8px;
+  }
+
+  .glyphicon {
+    margin-top: 3px;
+  }
+}

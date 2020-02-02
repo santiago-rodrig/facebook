@@ -42,19 +42,16 @@ class PostsLikesTest < ActionDispatch::IntegrationTest
   end
 
   test 'like link is disabled if the user already liked the post' do
-    get root_url
     post(like_post_user_path(id: @user.id, post_id: @post.id))
-    assert_redirected_to(root_url)
-    follow_redirect!
-    assert_select 'a[href=?][disabled="disabled"]', like_post_user_path(id: @user.id, post_id: @post.id)
     get post_path(@post)
-    assert_select 'a[href=?][disabled="disabled"]', like_post_user_path(id: @user.id, post_id: @post.id)
-    get posts_user_path(@user)
     assert_select 'a[href=?][disabled="disabled"]', like_post_user_path(id: @user.id, post_id: @post.id)
   end
 
   test 'user can unlike a post' do
     post(like_post_user_path(id: @user.id, post_id: @post.id))
+
+    get post_path(@post)
+    assert_select 'a[href=?]', unlike_post_user_path(id: @user.id, post_id: @post.id)
 
     assert_difference('@post.likers.count', -1) do
       delete(unlike_post_user_path(id: @user.id, post_id: @post.id))
@@ -62,6 +59,9 @@ class PostsLikesTest < ActionDispatch::IntegrationTest
   end
 
   test 'user can\'t unlike a post if he haven\'t liked it yet' do
+    get post_path(@post)
+    assert_select 'a[href=?][disabled="disabled"]', unlike_post_user_path(id: @user.id, post_id: @post.id)
+
     assert_no_difference('@post.likers.count') do
       delete(unlike_post_user_path(id: @user.id, post_id: @post.id))
     end

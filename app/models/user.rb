@@ -28,4 +28,8 @@ class User < ApplicationRecord
   def like(post)
     self.liked_posts << post
   end
+
+  def unlike(post)
+    self.liked_posts.delete(post)
+  end
 end

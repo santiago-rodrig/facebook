@@ -2,14 +2,23 @@
   <div class="col-md-3 text-center pt-4 pb-4 full-black">
     <%= link_to "<img src='#{@post.author.image_url}' alt='profile image' class='img-thumbnail'>".html_safe, user_path(@post.author) %>
     <p class="mt-3"><%= @post.author.full_name %><br><%= @post.created_at.to_time.utc.to_s %></p>
-    <p>
-    <% if @post.likers.include? current_user %>
-      <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary', disabled: true %>
-    <% else %>
-      <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary' %>
-    <% end %>
-    <span class="badge"><%= @post.likers.count %></span>
-    </p>
+    <div class="like-unlike">
+      <% if @post.likers.include? current_user %>
+        <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-success', disabled: true %>
+        <%= link_to "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'</span>".html_safe, unlike_post_user_path(id: current_user.id, post_id: @post.id), method: :delete, class: 'btn btn-danger' %>
+      <% else %>
+        <%= link_to "<span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>".html_safe, like_post_user_path(id: current_user.id, post_id: @post.id), method: :post, class: 'btn btn-primary' %>
+        <%= link_to "<span class='glyphicon glyphicon-thumbs-down' aria-hidden='true'</span>".html_safe, unlike_post_user_path(id: current_user.id, post_id: @post.id), method: :delete, class: 'btn btn-danger', disabled: true %>
+      <% end %>
+    </div>
+    <div class="like-count justify-center mt-2 mb-2">
+      <div>
+        <span class='glyphicon glyphicon-thumbs-up' aria-hidden='true'</span>
+      </div>
+      <div>
+        <span class="badge"><%= @post.likers.count %></span>
+      </div>
+    </div>
     <% if current_user == @post.author %>
       <div class="panel panel-info actions">
         <div class="panel-heading">

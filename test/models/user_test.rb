@@ -83,4 +83,8 @@ class UserTest < ActiveSupport::TestCase
   test 'it can like a post' do
     assert_respond_to User.new, :like
   end
+
+  test 'it can unlike a post' do
+    assert_respond_to User.new, :unlike
+  end
 end
