@@ -20,4 +20,8 @@ class PostTest < ActiveSupport::TestCase
   test 'it has many likers' do
     assert_respond_to Post.new, :likers
   end
+
+  test 'it has many commenters' do
+    assert_respond_to Post.new, :commenters
+  end
 end

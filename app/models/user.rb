@@ -34,4 +34,8 @@ class User < ApplicationRecord
   def unlike(post)
     self.liked_posts.delete(post)
   end
+
+  def comment(post, body)
+    comments.create(body: body, commented_post_id: post.id)
+  end
 end

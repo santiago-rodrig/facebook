@@ -1,0 +1,10 @@
+<div class="panel panel-default mt-3">
+  <div class="panel-heading">
+    <%= link_to comment.commenter.full_name, user_path(comment.commenter) %>
+    on
+    <%= Time.now.utc.to_s %>
+  </div>
+  <div class="panel-body">
+    <%= simple_format(comment.body) %>
+  </div>
+</div>

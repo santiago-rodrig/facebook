@@ -52,9 +52,21 @@ class UsersController < ApplicationController
     redirect_back(fallback_location: root_path)
   end
 
+  def comment_post
+    @user = User.find(comment_params[:user_id])
+    @post = Post.find(comment_params[:post_id])
+    @user.comment(@post, comment_params[:body])
+
+    redirect_to post_path(@post)
+  end
+
   private
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :gender, :phone, :birthday)
+  end
+
+  def comment_params
+    params.require(:comment).permit(:body, :post_id, :user_id)
   end
 end

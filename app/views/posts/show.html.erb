@@ -31,8 +31,23 @@
       </div>
     <% end %>
   </div>
-  <div class="col-md-9 full-white post-info pl-4 pb-4">
+  <div class="col-md-9 post-info pl-4 pb-4">
     <h1 class="text-center mb-3"><%= @post.title %></h1>
     <div class="post-content"><%= simple_format(@post.content) %></div>
+  </div>
+  <div class="col-xs-12 mt-2">
+    <hr>
+  </div>
+  <div class="col-md-8 col-md-offset-2 mt-2">
+    <%= form_for(:comment, url: comment_post_user_path(current_user)) do |f| %>
+      <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
+      <%= f.hidden_field :post_id, value: "#{@post.id}" %>
+      <div class="form-group">
+        <%= f.label :body, 'What do you think?' %>
+        <%= f.text_area :body, class: 'form-control', rows: 5 %>
+      </div>
+      <%= f.button 'Comment', class: 'btn btn-success' %>
+    <% end %>
+    <%= render partial: 'comment', collection: @comments %>
   </div>
 </div>
