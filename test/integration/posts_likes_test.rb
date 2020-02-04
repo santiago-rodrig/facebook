@@ -20,8 +20,8 @@ class PostsLikesTest < ActionDispatch::IntegrationTest
       user_session_path,
       params: {
         user: {
-        email: @user.email,
-        password: 'secret'
+          email: @user.email,
+          password: 'secret'
         }
       }
     )

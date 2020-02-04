@@ -26,6 +26,7 @@ class UserCommentPostTest < ActionDispatch::IntegrationTest
     )
   end
 
+  # rubocop:disable Metrics/BlockLength
   test 'user can comment on post' do
     get post_path(@post)
     assert_select 'form'
@@ -60,7 +61,8 @@ class UserCommentPostTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_equal @post.comments.order('created_at DESC'), assigns(:comments)
     assert_select 'div.panel-default div.panel-heading a[href=?]', user_path(@user)
-    assert_select 'div.panel-default div.panel-heading', match: /#{@user.full_name}.*on.*#{Time.now.utc.to_s}/mi
+    assert_select 'div.panel-default div.panel-heading', match: /#{@user.full_name}.*on.*#{Time.now.utc}/mi
     assert_select 'div.panel-default div.panel-body', text: Comment.last.body
   end
+  # rubocop:enable Metrics/BlockLength
 end

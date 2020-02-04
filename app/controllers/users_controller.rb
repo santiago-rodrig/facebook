@@ -43,9 +43,7 @@ class UsersController < ApplicationController
     @post = Post.find(params[:post_id])
     @user = User.find(params[:id])
 
-    unless @post.likers.include? @user
-      @user.like(@post)
-    end
+    @user.like(@post) unless @post.likers.include? @user
 
     redirect_back(fallback_location: root_path)
   end
@@ -54,9 +52,7 @@ class UsersController < ApplicationController
     @post = Post.find(params[:post_id])
     @user = User.find(params[:id])
 
-    if @post.likers.include? @user
-      @user.unlike(@post)
-    end
+    @user.unlike(@post) if @post.likers.include? @user
 
     redirect_back(fallback_location: root_path)
   end
