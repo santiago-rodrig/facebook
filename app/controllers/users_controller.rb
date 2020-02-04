@@ -2,19 +2,28 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @users = User.paginate(page: params[:page], per_page: 10)
+    @users = User.paginate(page: params[:page], per_page: 12)
 
     if params[:page]
-      @first_half = @users.offset(10 * (params[:page].to_i - 1)).first(5)
-      @second_half = @users.offset(10 * (params[:page].to_i - 1) + 5).first(5)
+      @first_half = @users.offset(12 * (params[:page].to_i - 1)).first(6)
+      @second_half = @users.offset(12 * (params[:page].to_i - 1) + 5).first(6)
     else
-      @first_half = @users.first(5)
-      @second_half = @users.offset(5).first(5)
+      @first_half = @users.first(6)
+      @second_half = @users.offset(6).first(6)
     end
   end
 
   def show
     @user = User.find(params[:id])
+    @posts = @user.posts.recents.paginate(page: params[:page], per_page: 10)
+
+    if params[:page]
+      @first_half = @posts.offset(10 * (params[:page].to_i - 1)).first(5)
+      @second_half = @posts.offset(10 * (params[:page].to_i - 1) + 5).first(5)
+    else
+      @first_half = @posts.first(5)
+      @second_half = @posts.offset(5).first(5)
+    end
   end
 
   def edit
@@ -28,22 +37,6 @@ class UsersController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def user_posts
-    @user = User.find(params[:id])
-    @of_who = current_user == @user ? 'Your' : @user.full_name
-    @posts = @user.posts.recents.paginate(page: params[:page], per_page: 10)
-
-    if params[:page]
-      @first_half = @posts.offset(10 * (params[:page].to_i - 1)).first(5)
-      @second_half = @posts.offset(10 * (params[:page].to_i - 1) + 5).first(5)
-    else
-      @first_half = @posts.first(5)
-      @second_half = @posts.offset(5).first(5)
-    end
-
-    render template: 'posts/index'
   end
 
   def like_post

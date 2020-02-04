@@ -26,7 +26,7 @@ Like.delete_all
     password_confirmation: pass
   )
 
-  rand(5).times do
+  rand(10).times do
     post = user.posts.create(
       title: Faker::Book.unique.title,
       content: Faker::Lorem.paragraph_by_chars(number: rand(89) + 311) + "\n\n" + Faker::Lorem.paragraph_by_chars(number: rand(73) + 429)

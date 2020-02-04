@@ -98,11 +98,17 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', edit_user_path(@user), 0
   end
 
-  test '#show should display a link to the user posts if the current user is not the same' do
-    get user_path(@other)
-    assert_select 'a[href=?]', posts_user_path(@other)
+  test '#show should display all posts for the user' do
     get user_path(@user)
-    assert_select 'img + a[href=?]', posts_user_path(@user), 0
+    assert_not_nil assigns(:posts)
+    assert_equal @user.posts.recents.paginate(page: controller.params[:page], per_page: 10), assigns(:posts)
+
+    (assigns(:first_half) + assigns(:second_half)).each do |p|
+      assert_select 'div.well h3', text: p.title
+      assert_select 'div.well img[src=?]', @user.image_url + '?s=50'
+      assert_select 'div.well a[href=?]', post_path(p)
+      assert_select 'div.well p', match: /#{p.content[0...300]}/mi
+    end
   end
 
   test 'should get #edit' do
@@ -206,13 +212,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select 'dt', text: 'Likes'
       assert_select 'dd', text: user.total_likes.to_s
     end
-  end
-
-  test '#user_posts displays all posts created by the user' do
-    get posts_user_path(@user)
-    assert_response(:success)
-    assert_not_nil assigns(:first_half)
-    assert_not_nil assigns(:second_half)
   end
 end
 # rubocop:enable Metrics/ClassLength
