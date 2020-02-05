@@ -42,11 +42,15 @@ gem 'omniauth-facebook'
 # Use bootstrap 3
 gem 'bootstrap-sass', '~> 3.4.1'
 gem 'jquery-rails'
-gem 'sassc-rails', '>= 2.1.0'
 # Nice tabular formatting in console
 gem 'hirb'
 # Rubocop for code styling
 gem 'rubocop'
+# Faker for populating the database
+gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
+# Pagination with bootstrap
+gem 'will_paginate', '~> 3.1.0'
+gem 'will_paginate-bootstrap'
 
 group :development do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]

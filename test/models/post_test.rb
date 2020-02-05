@@ -12,4 +12,16 @@ class PostTest < ActiveSupport::TestCase
   test 'should belong to an author' do
     assert_respond_to Post.new, :author
   end
+
+  test 'it has many likes' do
+    assert_respond_to Post.new, :likes
+  end
+
+  test 'it has many likers' do
+    assert_respond_to Post.new, :likers
+  end
+
+  test 'it has many commenters' do
+    assert_respond_to Post.new, :commenters
+  end
 end

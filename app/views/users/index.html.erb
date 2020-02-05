@@ -2,3 +2,6 @@
 <div class="row">
   <%= render partial: 'user', collection: @users %>
 </div>
+<div align="center">
+  <%= will_paginate @users %>
+</div>

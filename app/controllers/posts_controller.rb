@@ -2,7 +2,16 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @posts = Post.recents
+    @posts = Post.recents.paginate(page: params[:page], per_page: 10)
+
+    if params[:page]
+      @first_half = @posts.offset(10 * (params[:page].to_i - 1)).first(5)
+      @second_half = @posts.offset(10 * (params[:page].to_i - 1) + 5).first(5)
+    else
+      @first_half = @posts.first(5)
+      @second_half = @posts.offset(5).first(5)
+    end
+
     @of_who = 'All'
   end
 
@@ -12,6 +21,7 @@ class PostsController < ApplicationController
 
   def show
     @post = Post.find(params[:id])
+    @comments = @post.comments.order('created_at DESC')
   end
 
   def create

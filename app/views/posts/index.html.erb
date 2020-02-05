@@ -1,4 +1,12 @@
 <h1 class="text-center mb-3"><%= @of_who %> Posts</h1>
 <div class="row">
-  <%= render partial: 'posts/post', collection: @posts %>
+  <div class="col-md-6">
+    <%= render partial: 'posts/post', collection: @first_half %>
+  </div>
+  <div class="col-md-6">
+    <%= render partial: 'posts/post', collection: @second_half %>
+  </div>
+</div>
+<div align="center">
+  <%= will_paginate @posts %>
 </div>

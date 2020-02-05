@@ -71,4 +71,28 @@ class UserTest < ActiveSupport::TestCase
   test 'it has many posts' do
     assert_respond_to User.new, :posts
   end
+
+  test 'it has many likes' do
+    assert_respond_to User.new, :likes
+  end
+
+  test 'it has many liked_posts' do
+    assert_respond_to User.new, :liked_posts
+  end
+
+  test 'it can like a post' do
+    assert_respond_to User.new, :like
+  end
+
+  test 'it can unlike a post' do
+    assert_respond_to User.new, :unlike
+  end
+
+  test 'it has many commented_posts' do
+    assert_respond_to User.new, :commented_posts
+  end
+
+  test 'it can comment on a post' do
+    assert_respond_to User.new, :comment
+  end
 end
