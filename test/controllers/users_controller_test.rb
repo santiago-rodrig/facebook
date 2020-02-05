@@ -57,7 +57,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test '#show should display the user email in a paragraph' do
     get user_path(@user)
-    assert_select 'p', match: /#{@user.email}/
+    assert_select 'dt', text: 'Email'
+    assert_select 'dd', match: /#{@user.email}/
   end
 
   test '#show should display a link to edit the registration info if current user is the same' do
@@ -109,6 +110,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select 'div.well a[href=?]', post_path(p)
       assert_select 'div.well p', match: /#{p.content[0...300]}/mi
     end
+  end
+
+  test '#show should display the total number of posts for the user' do
+    get user_path(@user)
+    assert_not_nil assigns(:posts)
+    assert_select 'dt', text: 'Posts'
+    assert_select 'dd', text: @user.posts.count.to_s
+  end
+
+  test '#show should display the total number of likes for his posts' do
+    get user_path(@user)
+    assert_select 'dt', text: 'Likes'
+    assert_select 'dd', text: @user.total_likes.to_s
   end
 
   test 'should get #edit' do
@@ -212,6 +226,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select 'dt', text: 'Likes'
       assert_select 'dd', text: user.total_likes.to_s
     end
+  end
+
+  test '#friend_requests should return http success' do
+    get friend_requests_user_path(@user)
+    assert_response :success
+  end
+
+  test '#friend_requests sets @requests' do
+    get friend_requests_user_path(@user)
+    assert_not_nil assigns(:requests)
   end
 end
 # rubocop:enable Metrics/ClassLength

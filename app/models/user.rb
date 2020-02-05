@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :liked_posts, through: :likes, source: :liked_post
   has_many :comments, foreign_key: 'commenter_id'
   has_many :commented_posts, through: :comments, source: :commented_post
+  has_many :friendships, foreign_key: 'user_id'
+  has_many :friends, through: :friendships, source: :friend
   validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable

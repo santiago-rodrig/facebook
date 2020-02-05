@@ -65,6 +65,11 @@ class UsersController < ApplicationController
     redirect_to post_path(@post)
   end
 
+  def friend_requests
+    @user = User.find(params[:id])
+    @requests = Friendship.requesters(@user)
+  end
+
   private
 
   def user_params

@@ -9,7 +9,14 @@
   </div>
   <div class="col-sm-5 col-md-3">
     <h3>Account</h3>
-    <p><strong>Email</strong>: <%= @user.email %></p>
+    <dl>
+      <dt>Email</dt>
+      <dd><%= @user.email %></dd>
+      <dt>Posts</dt>
+      <dd><%= @user.posts.count.to_s %></dd>
+      <dt>Likes</dt>
+      <dd><%= @user.total_likes.to_s %></dd>
+    </dl>
     <% if current_user == @user %>
       <div>
         <%= link_to 'Edit account (email and password)', edit_user_registration_path(@user) %>
