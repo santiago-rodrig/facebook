@@ -1,6 +1,6 @@
-<h1 class="text-center mb-3">All Users</h1>
+<h1 class="text-center mb-3"><%= @title %></h1>
 <div class="row">
-  <%= render partial: 'user', collection: @users %>
+  <%= render partial: @partial, collection: @first_half + @second_half %>
 </div>
 <div align="center">
   <%= will_paginate @users %>

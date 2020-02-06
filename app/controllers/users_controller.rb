@@ -2,7 +2,9 @@ class UsersController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    @title = 'All users'
     @users = User.paginate(page: params[:page], per_page: 12)
+    @partial = 'user'
 
     if params[:page]
       @first_half = @users.offset(12 * (params[:page].to_i - 1)).first(6)
@@ -95,6 +97,36 @@ class UsersController < ApplicationController
     flash[:info] = "a friendship proposal has been sent to #{@friend.full_name}"
 
     redirect_to users_path
+  end
+
+  def friends_index
+    @user = User.find(params[:id])
+    @title = 'Your friends'
+    @partial = 'friend'
+    @users = @user.real_friends.paginate(page: params[:page], per_page: 12)
+
+    if params[:page]
+      @first_half = @users.offset(12 * (params[:page].to_i - 1)).first(6)
+      @second_half = @users.offset(12 * (params[:page].to_i - 1) + 6).first(6)
+    else
+      @first_half = @users.first(6)
+      @second_half = @users.offset(6).first(6)
+    end
+
+    render template: 'users/index'
+  end
+
+  def cancel_friendship
+    @user = User.find(params[:id])
+    @friend = User.find(params[:friend_id])
+
+    @friend.friendships.reject do |f|
+      f.user.id == @user.id
+    end
+
+    @friend.friends.delete(@user)
+
+    redirect_to friends_user_path(@user)
   end
 
   private
