@@ -44,4 +44,8 @@ class User < ApplicationRecord
   def total_likes
     posts.inject(0) { |t, p| t + p.likers.count }
   end
+
+  def friend_requests_count
+    Friendship.requesters(self).count
+  end
 end

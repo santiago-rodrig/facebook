@@ -12,7 +12,9 @@ Rails.application.routes.draw do
     get 'friend_requests', on: :member, to: 'users#friend_requests'
     post 'like_post', on: :member, to: 'users#like_post'
     post 'comment_post', on: :member, to: 'users#comment_post'
+    post 'accept_friend_request', on: :member, to: 'users#accept_friend_request'
     delete 'unlike_post', on: :member, to: 'users#unlike_post'
+    delete 'reject_friend_request', on: :member, to: 'users#reject_friend_request'
   end
 
   resources :posts

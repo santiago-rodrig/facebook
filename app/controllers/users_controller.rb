@@ -70,6 +70,24 @@ class UsersController < ApplicationController
     @requests = Friendship.requesters(@user)
   end
 
+  def accept_friend_request
+    @user = User.find(params[:id])
+    @friend = User.find(params[:friend_id])
+    @friend.friendships.find_by(friend_id: @user.id).toggle!(:confirmed)
+    flash[:success] = "you and #{@friend.full_name} are now friends!"
+
+    redirect_to friend_requests_user_path(@user)
+  end
+
+  def reject_friend_request
+    @user = User.find(params[:id])
+    @friend = User.find(params[:friend_id])
+    @friend.friendships.find_by(friend_id: @user.id).destroy
+    flash[:info] = "you rejected #{@friend.full_name} friendship proposal"
+
+    redirect_to friend_requests_user_path(@user)
+  end
+
   private
 
   def user_params

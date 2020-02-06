@@ -35,7 +35,7 @@ class FriendshipTest < ActiveSupport::TestCase
     )
 
     other_user.friends << user
-    assert_equal Friendship.where('friend_id = ?', user.id), Friendship.requesters(user)
+    assert_equal Friendship.where('friend_id = ? AND NOT confirmed', user.id), Friendship.requesters(user)
     assert_includes Friendship.requesters(user), other_user.friendships.first
   end
 end
