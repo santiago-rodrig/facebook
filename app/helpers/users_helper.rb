@@ -5,6 +5,8 @@ module UsersHelper
     confirmed = friendship && friendship.confirmed?
     if  included && confirmed
       return 'Friend'
+    elsif current_user.friends.include?(user) || user.friends.include?(current_user)
+      return 'Pending friendship'
     elsif user == current_user
       return 'Yourself'
     else

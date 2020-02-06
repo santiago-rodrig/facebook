@@ -9,9 +9,9 @@
       <dt>Likes</dt>
       <dd><%= user.total_likes %></dd>
       <dt>Relation</dt>
-      <dd><%= relation_with(user) %></dd>
+      <dd><mark><%= relation_with(user) %></mark></dd>
     </dl>
-    <% if current_user != user && !current_user.real_friends.include?(user) %>
+    <% if current_user != user && !current_user.real_friends.include?(user) && !current_user.friends.include?(user) %>
       <div class="cleared pull-right">
         <%= link_to 'Ask friendship', ask_friendship_user_path(id: current_user.id, friend_id: user.id), method: :post, class: 'btn btn-primary' %>
       </div>

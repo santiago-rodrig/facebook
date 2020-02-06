@@ -29,6 +29,8 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
         }
       }
     )
+
+    follow_redirect!
   end
 
   test '#friend_requests should return http success' do
@@ -99,15 +101,15 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
 
   test 'users#friend_request should display an alert message if there are no requests' do
     @other_user.friends.delete(@user)
-    get friend_request_user_path(@user)
-    assert_select 'div.alert.alert-info', text: 'You have no friend request.'
+    get friend_requests_user_path(@user)
+    assert_select 'div.alert.alert-info', text: 'You have no friend requests.'
   end
 
   test 'users#index should display links to ask for friendship if the user is not a friend' do
     get users_path
 
     (assigns(:first_half) + assigns(:second_half)).each do |u|
-      if u != @user && !@user.real_friends.include?(u)
+      if u != @user && !@user.real_friends.include?(u) && !@user.friends.include?(u)
         assert_select 'a[href=?].btn.btn-primary', ask_friendship_user_path(id: @user.id, friend_id: u.id)
       end
     end
@@ -126,11 +128,13 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
       assert_select 'dt', text: 'Relation'
 
       if @user.real_friends.include?(u)
-        assert_select 'dd', text: 'Friends'
+        assert_select 'dd mark', text: 'Friends'
+      elsif @user.friends.include?(u) || u.friends.include?(@user)
+        assert_select 'dd mark', text: 'Pending friendship'
       elsif u == @user
-        assert_select 'dd', text: 'Yourself'
+        assert_select 'dd mark', text: 'Yourself'
       else
-        assert_select 'dd', text: 'Stranger'
+        assert_select 'dd mark', text: 'Stranger'
       end
     end
   end

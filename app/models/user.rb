@@ -50,7 +50,7 @@ class User < ApplicationRecord
   end
 
   def real_friends
-    ids = Friendship.where('user_id = ? OR friend_id = ? AND confirmed', id, id).map do |f|
+    ids = Friendship.where('(user_id = ? AND confirmed) OR (friend_id = ? AND confirmed)', id, id).map do |f|
       ans = nil
 
       if f.user.id == id

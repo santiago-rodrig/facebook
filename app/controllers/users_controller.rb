@@ -121,10 +121,15 @@ class UsersController < ApplicationController
     @friend = User.find(params[:friend_id])
 
     @friend.friendships.reject do |f|
-      f.user.id == @user.id
+      f.friend.id == @user.id
+    end
+
+    @user.friendships.reject do |f|
+      f.friend.id == @friend.id
     end
 
     @friend.friends.delete(@user)
+    @user.friends.delete(@friend)
 
     redirect_to friends_user_path(@user)
   end
