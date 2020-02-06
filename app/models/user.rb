@@ -51,22 +51,18 @@ class User < ApplicationRecord
 
   def real_friends
     ids = Friendship.where('(user_id = ? AND confirmed) OR (friend_id = ? AND confirmed)', id, id).map do |f|
-      ans = nil
-
       if f.user.id == id
-        ans = f.friend_id
+        f.friend_id
       else
-        ans = f.user_id
+        f.user_id
       end
-      
-      ans
     end
 
     User.where(id: ids)
   end
 
   def feed
-    ids = real_friends.map { |f| f.id }
+    ids = real_friends.map(&:id)
     ids << id
     Post.where(author_id: ids)
   end

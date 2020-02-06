@@ -1,5 +1,6 @@
 require 'test_helper'
 
+# rubocop:disable Metrics/ClassLength
 class UserFriendsTest < ActionDispatch::IntegrationTest
   def setup
     @user = User.create(
@@ -62,8 +63,12 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
     get friend_requests_user_path(@user)
 
     assigns(:requests).each do |r|
-      assert_select 'div.well a[href=?].btn.btn-success', accept_friend_request_user_path(id: @user.id, friend_id: r.user.id), text: 'Accept'
-      assert_select 'div.well a[href=?].btn.btn-danger', reject_friend_request_user_path(id: @user.id, friend_id: r.user.id), text: 'Reject'
+      assert_select 'div.well a[href=?].btn.btn-success',
+                    accept_friend_request_user_path(id: @user.id, friend_id: r.user.id),
+                    text: 'Accept'
+      assert_select 'div.well a[href=?].btn.btn-danger',
+                    reject_friend_request_user_path(id: @user.id, friend_id: r.user.id),
+                    text: 'Reject'
     end
   end
 
@@ -203,7 +208,7 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   test 'users#friends displays an alert message if there are no friends' do
     get friends_user_path(@user)
     assert_select 'div.alert.alert-info', match: /.*You have no friends! :\(,.*/
-    assert_select 'div.alert.alert-info a[href=?]', users_path,text: 'add some'
+    assert_select 'div.alert.alert-info a[href=?]', users_path, text: 'add some'
   end
 
   test 'users#cancel_friendship deletes the friendship' do
@@ -219,3 +224,4 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
     assert_redirected_to friends_user_path(@user)
   end
 end
+# rubocop:enable Metrics/ClassLength
