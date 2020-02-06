@@ -78,7 +78,7 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   test '#accept_friend_request should display a flash message after redirecting' do
     post(accept_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
     follow_redirect!
-    assert_equal "Success: you and #{@other_user.full_name} are now friends!", flash[:success]
+    assert_equal "you and #{@other_user.full_name} are now friends!", flash[:success]
   end
 
   test '#reject_friend_request should delete the friendship' do
@@ -91,9 +91,41 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
     assert_redirected_to friend_requests_user_path(@user)
   end
 
-  test '#reject_friend_request shoulddisplay a flash message after redirecting' do
+  test '#reject_friend_request should display a flash message after redirecting' do
     delete(reject_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
     follow_redirect!
-    assert_equal "Info: you rejected #{@other_user.full_name} friendship proposal", flash[:info]
+    assert_equal "you rejected #{@other_user.full_name} friendship proposal", flash[:info]
+  end
+
+  test 'users#index should display links to ask for friendship if the user is not a friend' do
+    get users_path
+
+    (assigns(:first_half) + assigns(:second_half)).each do |u|
+      if u != @user && !@user.real_friends.include?(u)
+        assert_select 'a[href=?].btn.btn-primary', ask_friendship_user_path(id: @user.id, friend_id: u.id)
+      end
+    end
+  end
+
+  test 'users#ask_friendship should create a pending friedship request' do
+    assert_difference '@user.friends.count' do
+      post(ask_friendship_user_path(id: @user.id, friend_id: @other_user.id))
+    end
+  end
+
+  test 'users#index should display the relation status for each user' do
+    get users_path
+
+    (assigns(:first_half) + assigns(:second_half)).each do |u|
+      assert_select 'dt', text: 'Relation'
+
+      if @user.real_friends.include?(u)
+        assert_select 'dd', text: 'Friends'
+      elsif u == @user
+        assert_select 'dd', text: 'Yourself'
+      else
+        assert_select 'dd', text: 'Stranger'
+      end
+    end
   end
 end

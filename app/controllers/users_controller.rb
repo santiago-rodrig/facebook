@@ -88,6 +88,15 @@ class UsersController < ApplicationController
     redirect_to friend_requests_user_path(@user)
   end
 
+  def ask_friendship
+    @user = User.find(params[:id])
+    @friend = User.find(params[:friend_id])
+    @user.friends << @friend
+    flash[:info] = "a friendship proposal has been sent to #{@friend.full_name}"
+
+    redirect_to users_path
+  end
+
   private
 
   def user_params

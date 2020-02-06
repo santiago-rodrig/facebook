@@ -48,4 +48,16 @@ class User < ApplicationRecord
   def friend_requests_count
     Friendship.requesters(self).count
   end
+
+  def real_friends
+    ids = Friendship.where('user_id = ? OR friend_id = ? AND confirmed', id, id).map do |f|
+      if f.user.id == id
+        f.friend_id
+      else
+        f.user_id
+      end
+    end
+
+    User.where(id: ids)
+  end
 end
