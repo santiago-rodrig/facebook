@@ -97,6 +97,12 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
     assert_equal "you rejected #{@other_user.full_name} friendship proposal", flash[:info]
   end
 
+  test 'users#friend_request should display an alert message if there are no requests' do
+    @other_user.friends.delete(@user)
+    get friend_request_user_path(@user)
+    assert_select 'div.alert.alert-info', text: 'You have no friend request.'
+  end
+
   test 'users#index should display links to ask for friendship if the user is not a friend' do
     get users_path
 
@@ -141,12 +147,12 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
     assert_equal @user.real_friends.paginate(page: controller.params[:page], per_page: 12), assigns(:users)
   end
 
-  test 'users#friend sets the title variable' do
+  test 'users#friends sets the title variable' do
     get friends_user_path(@user)
     assert_equal 'Your friends', assigns(:title)
   end
 
-  test 'users#friend sets the partial variable' do
+  test 'users#friends sets the partial variable' do
     get friends_user_path(@user)
     assert_equal 'friend', assigns(:partial)
   end
@@ -188,6 +194,12 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
     (assigns(:first_half) + assigns(:second_half)).each do |f|
       assert_select 'a[href=?]', cancel_friendship_user_path(id: @user.id, friend_id: f.id)
     end
+  end
+
+  test 'users#friends displays an alert message if there are no friends' do
+    get friends_user_path(@user)
+    assert_select 'div.alert.alert-info', match: /.*You have no friends! :\(,.*/
+    assert_select 'div.alert.alert-info a[href=?]', users_path,text: 'add some'
   end
 
   test 'users#cancel_friendship deletes the friendship' do

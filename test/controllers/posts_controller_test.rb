@@ -59,9 +59,17 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:second_half)
   end
 
-  test '#index should display All Posts as a heading' do
+  test '#index should display Your feed as a heading' do
     get root_url
-    assert_select 'h1', text: 'All Posts'
+    assert_select 'h1', text: 'Your feed'
+  end
+
+  test '#index should display an alert if the collection is empty' do
+    Post.delete_all
+    get root_path
+    assert_select 'div.alert.alert-info', match: /.*Your feed is empty!.*/mi
+    assert_select 'div.alert.alert-info a[href=?]', users_path, text: 'Add some friends'
+    assert_select 'div.alert.alert-info a[href=?]', new_post_path, text: 'create a post'
   end
 
   test '#index should list all @posts' do

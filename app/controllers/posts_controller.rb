@@ -12,7 +12,7 @@ class PostsController < ApplicationController
       @second_half = @posts.offset(5).first(5)
     end
 
-    @of_who = 'All'
+    @title = 'Your feed'
   end
 
   def new

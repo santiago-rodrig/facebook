@@ -46,12 +46,21 @@
   <div class="col-xs-12">
     <h2 class="mb-2 mt-3">Posts by <%= @user.full_name %></h2>
   </div>
-  <div class="col-md-6">
-    <%= render partial: 'post', collection: @first_half %>
-  </div>
-  <div class="col-md-6">
-    <%= render partial: 'post', collection: @second_half %>
-  </div>
+  <% if @posts.any? %>
+    <div class="col-md-6">
+      <%= render partial: 'post', collection: @first_half %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: 'post', collection: @second_half %>
+    </div>
+  <% else %>
+    <div class="col-md-6">
+      <div class="alert alert-info">
+        You have no posts,
+        <%= link_to 'create one', new_post_path, class: 'alert-link' %>!
+      </div>
+    </div>
+  <% end %>
 </div>
 <div align="center">
   <%= will_paginate @posts %>

@@ -1,5 +1,13 @@
 <h1 class="mb-3 text-center">Your friend requests</h1>
 
 <div class="row">
-  <%= render partial: 'request', collection: @requests %>
+  <% if @requests.any? %>
+    <%= render partial: 'request', collection: @requests %>
+  <% else %>
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="alert alert-info">
+        You have no friend requests.
+      </div>
+    </div>
+  <% end %>
 </div>

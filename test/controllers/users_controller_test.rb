@@ -30,6 +30,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response(:success)
   end
 
+  test '#show should display an alert if the user have no posts' do
+    get user_path(@user)
+    assert_select 'div.alert.alert-info', match: /.*You have no posts, .*!/
+    assert_select 'div.alert.alert-info a[href=?]', new_post_path, text: 'create one'
+  end
+
   test '#show should assign the @user' do
     get user_path(@user)
     assert_equal @user, assigns(:user)
