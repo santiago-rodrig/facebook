@@ -227,15 +227,5 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select 'dd', text: user.total_likes.to_s
     end
   end
-
-  test '#friend_requests should return http success' do
-    get friend_requests_user_path(@user)
-    assert_response :success
-  end
-
-  test '#friend_requests sets @requests' do
-    get friend_requests_user_path(@user)
-    assert_not_nil assigns(:requests)
-  end
 end
 # rubocop:enable Metrics/ClassLength
