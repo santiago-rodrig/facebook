@@ -43,6 +43,12 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal controller.action_name, 'index'
   end
 
+  test '#index should set posts variable' do
+    get root_path
+    assert_not_nil assigns(:posts)
+    assert_equal @user.feed.recents.paginate(page: controller.params[:page], per_page: 10), assigns(:posts)
+  end
+
   test '#index should set first_half' do
     get root_url
     assert_not_nil assigns(:first_half)

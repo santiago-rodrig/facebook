@@ -39,4 +39,9 @@ class NavigationTest < ActionDispatch::IntegrationTest
     get root_path
     assert_select 'ul.nav.navbar-nav.navbar-right li a span.badge', match: /.*#{Friendship.requesters(@user).count}.*/
   end
+
+  test 'it displays a link to the user friends' do
+    get root_path
+    assert_select 'ul.nav.navbar-nav.navbar-right li a[href=?]', friends_user_path(@user), text: 'Friends'
+  end
 end

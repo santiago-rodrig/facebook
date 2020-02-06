@@ -21,6 +21,7 @@
         <% else %>
           <li><%= link_to "Friend requests <span class='badge'>#{current_user.friend_requests_count}</span>".html_safe, friend_requests_user_path(current_user) %> </li>
         <% end %>
+        <li><%= link_to 'Friends', friends_user_path(current_user) %></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
           <ul class="dropdown-menu">
