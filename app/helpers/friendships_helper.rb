@@ -3,21 +3,22 @@ module FriendshipsHelper
     not_the_same = current_user != friend
     not_a_friend = !current_user.real_friends.include?(friend)
     not_requested = !current_user.friends.include?(friend)
+    not_all_three = not_the_same && not_a_friend && not_requested
 
-    if not_the_same && not_a_friend && not_requested
-      ask_button = <<-BTN
-        <div class="cleared pull-right">
-          #{link_to 'Ask friendship', ask_friendship_path(user_id: current_user.id, friend_id: friend.id), method: :post, class: 'btn btn-primary'}
-        </div>
-      BTN
+    ask_button = <<-BTN
+      <div class="cleared pull-right">
+        #{link_to 'Ask friendship', ask_friendship_path(user_id: current_user.id, friend_id: friend.id), method: :post, class: 'btn btn-primary'}
+      </div>
+    BTN
 
-      return ask_button.html_safe
-    end
+    return unless not_all_three
+
+    ask_button.html_safe
   end
 
   def put_requests(requests)
     if @requests.any?
-      return render partial: 'friendships/request', collection: requests
+      render partial: 'friendships/request', collection: requests
     else
       msg_emty = <<-EMPTY
         <div class="col-sm-6 col-sm-offset-3">
@@ -27,7 +28,7 @@ module FriendshipsHelper
         </div>
       EMPTY
 
-      return msg_emty.html_safe
+      msg_emty.html_safe
     end
   end
 end
