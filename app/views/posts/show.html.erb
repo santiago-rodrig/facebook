@@ -39,7 +39,7 @@
     <hr>
   </div>
   <div class="col-md-8 col-md-offset-2 mt-2">
-    <%= form_for(:comment, url: comment_post_user_path(current_user)) do |f| %>
+    <%= form_for(:comment, url: comment_post_path) do |f| %>
       <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
       <%= f.hidden_field :post_id, value: "#{@post.id}" %>
       <div class="form-group">
@@ -48,6 +48,6 @@
       </div>
       <%= f.button 'Comment', class: 'btn btn-success' %>
     <% end %>
-    <%= render partial: 'comment', collection: @comments %>
+    <%= render partial: 'comments/comment', collection: @comments %>
   </div>
 </div>

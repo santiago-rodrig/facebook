@@ -11,7 +11,6 @@ Rails.application.routes.draw do
     get 'posts', on: :member, to: 'users#user_posts'
     get 'friend_requests', on: :member, to: 'users#friend_requests'
     get 'friends', on: :member, to: 'users#friends_index'
-    post 'comment_post', on: :member, to: 'users#comment_post'
     post 'accept_friend_request', on: :member, to: 'users#accept_friend_request'
     post 'ask_friendship', on: :member, to: 'users#ask_friendship'
     delete 'reject_friend_request', on: :member, to: 'users#reject_friend_request'
@@ -21,6 +20,9 @@ Rails.application.routes.draw do
   # likes
   post 'like_post', to: 'likes#like_post'
   delete 'unlike_post', to: 'likes#unlike_post'
+
+  # posts
+  post 'comment_post', to: 'comments#comment_post'
 
   resources :posts
 end
