@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :authenticate_user!
 
   def index
-    @posts = Post.recents.paginate(page: params[:page], per_page: 10)
+    @posts = current_user.feed.recents.paginate(page: params[:page], per_page: 10)
 
     if params[:page]
       @first_half = @posts.offset(10 * (params[:page].to_i - 1)).first(5)
@@ -12,7 +12,7 @@ class PostsController < ApplicationController
       @second_half = @posts.offset(5).first(5)
     end
 
-    @of_who = 'All'
+    @title = 'Your feed'
   end
 
   def new

@@ -1,0 +1,21 @@
+<div class="col-md-4">
+  <div class="well clearfix">
+    <div class="pull-left mr-3">
+      <%= link_to "<img src='#{request.user.image_url}' class='img-thumbnail' alt='profile image'>".html_safe, user_path(request.user) %>
+    </div>
+    <div class="pull-left">
+      <dl>
+        <dt>Name</dt>
+        <dd><%= request.user.full_name %></dd>
+      </dl>
+    </div>
+    <div class="pull-right">
+      <div>
+        <%= link_to 'Accept', accept_friend_request_path(user_id: current_user.id, friend_id: request.user.id), method: :post, class: 'btn btn-success' %>
+      </div>
+      <div>
+        <%= link_to 'Reject', reject_friend_request_path(user_id: current_user.id, friend_id: request.user.id), method: :delete, class: 'btn btn-danger mt-1' %>
+      </div>
+    </div>
+  </div>
+</div>

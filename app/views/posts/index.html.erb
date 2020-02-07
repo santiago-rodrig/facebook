@@ -1,11 +1,22 @@
-<h1 class="text-center mb-3"><%= @of_who %> Posts</h1>
+<h1 class="text-center mb-3"><%= @title %></h1>
 <div class="row">
-  <div class="col-md-6">
-    <%= render partial: 'posts/post', collection: @first_half %>
-  </div>
-  <div class="col-md-6">
-    <%= render partial: 'posts/post', collection: @second_half %>
-  </div>
+  <% if @posts.empty? %>
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="alert alert-info">
+        Your feed is empty!
+        <%= link_to 'Add some friends', users_path, class: 'alert-link' %>
+        or
+        <%= link_to 'create a post', new_post_path, class: 'alert-link' %>!
+      </div>
+    </div>
+  <% else %>
+    <div class="col-md-6">
+      <%= render partial: 'posts/post', collection: @first_half %>
+    </div>
+    <div class="col-md-6">
+      <%= render partial: 'posts/post', collection: @second_half %>
+    </div>
+  <%end %>
 </div>
 <div align="center">
   <%= will_paginate @posts %>

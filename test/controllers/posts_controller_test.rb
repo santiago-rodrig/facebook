@@ -43,6 +43,12 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_equal controller.action_name, 'index'
   end
 
+  test '#index should set posts variable' do
+    get root_path
+    assert_not_nil assigns(:posts)
+    assert_equal @user.feed.recents.paginate(page: controller.params[:page], per_page: 10), assigns(:posts)
+  end
+
   test '#index should set first_half' do
     get root_url
     assert_not_nil assigns(:first_half)
@@ -53,9 +59,17 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_not_nil assigns(:second_half)
   end
 
-  test '#index should display All Posts as a heading' do
+  test '#index should display Your feed as a heading' do
     get root_url
-    assert_select 'h1', text: 'All Posts'
+    assert_select 'h1', text: 'Your feed'
+  end
+
+  test '#index should display an alert if the collection is empty' do
+    Post.delete_all
+    get root_path
+    assert_select 'div.alert.alert-info', match: /.*Your feed is empty!.*/mi
+    assert_select 'div.alert.alert-info a[href=?]', users_path, text: 'Add some friends'
+    assert_select 'div.alert.alert-info a[href=?]', new_post_path, text: 'create a post'
   end
 
   test '#index should list all @posts' do
@@ -191,11 +205,6 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     @post2 = @other.posts.create(title: 'Gaussian bell', content: 'Hipopotamus')
     get post_path(@post2)
     assert_select 'a[href=?]', post_path(@post), 0, text: 'Delete'
-  end
-
-  test '#show displays link to like post' do
-    get post_path(@post)
-    assert_select 'a[href=?]', like_post_user_path(id: @user.id, post_id: @post.id)
   end
 
   test '#show displays likes count' do

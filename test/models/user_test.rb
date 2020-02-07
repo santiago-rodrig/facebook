@@ -95,4 +95,12 @@ class UserTest < ActiveSupport::TestCase
   test 'it can comment on a post' do
     assert_respond_to User.new, :comment
   end
+
+  test 'it has many friends' do
+    assert_respond_to User.new, :friends
+  end
+
+  test 'it has feed collection of posts' do
+    assert_respond_to User.new, :feed
+  end
 end

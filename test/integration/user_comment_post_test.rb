@@ -35,7 +35,7 @@ class UserCommentPostTest < ActionDispatch::IntegrationTest
 
     assert_difference('@post.commenters.count') do
       post(
-        comment_post_user_path(@user),
+        comment_post_path,
         params: {
           comment: {
             user_id: @user.id,
@@ -47,7 +47,7 @@ class UserCommentPostTest < ActionDispatch::IntegrationTest
     end
 
     post(
-      comment_post_user_path(@user),
+      comment_post_path,
       params: {
         comment: {
           user_id: @user.id,

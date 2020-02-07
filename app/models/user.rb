@@ -5,6 +5,8 @@ class User < ApplicationRecord
   has_many :liked_posts, through: :likes, source: :liked_post
   has_many :comments, foreign_key: 'commenter_id'
   has_many :commented_posts, through: :comments, source: :commented_post
+  has_many :friendships, foreign_key: 'user_id'
+  has_many :friends, through: :friendships, source: :friend
   validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -41,5 +43,27 @@ class User < ApplicationRecord
 
   def total_likes
     posts.inject(0) { |t, p| t + p.likers.count }
+  end
+
+  def friend_requests_count
+    Friendship.requesters(self).count
+  end
+
+  def real_friends
+    ids = Friendship.where('(user_id = ? AND confirmed) OR (friend_id = ? AND confirmed)', id, id).map do |f|
+      if f.user.id == id
+        f.friend_id
+      else
+        f.user_id
+      end
+    end
+
+    User.where(id: ids)
+  end
+
+  def feed
+    ids = real_friends.map(&:id)
+    ids << id
+    Post.where(author_id: ids)
   end
 end

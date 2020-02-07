@@ -1,0 +1,16 @@
+<h1 class="text-center mb-3"><%= @title %></h1>
+<div class="row">
+  <% if @users.empty? %>
+    <div class="col-sm-6 col-sm-offset-3">
+      <div class="alert alert-info">
+        You have no friends! :(,
+        <%= link_to 'add some', users_path, class: 'alert-link' %>!
+      </div>
+    </div>
+  <% else %>
+    <%= render partial: @partial, collection: @first_half + @second_half %>
+  <% end %>
+</div>
+<div align="center">
+  <%= will_paginate @users %>
+</div>

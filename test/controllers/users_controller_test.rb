@@ -30,6 +30,12 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response(:success)
   end
 
+  test '#show should display an alert if the user have no posts' do
+    get user_path(@user)
+    assert_select 'div.alert.alert-info', match: /.*You have no posts, .*!/
+    assert_select 'div.alert.alert-info a[href=?]', new_post_path, text: 'create one'
+  end
+
   test '#show should assign the @user' do
     get user_path(@user)
     assert_equal @user, assigns(:user)
@@ -57,7 +63,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test '#show should display the user email in a paragraph' do
     get user_path(@user)
-    assert_select 'p', match: /#{@user.email}/
+    assert_select 'dt', text: 'Email'
+    assert_select 'dd', match: /#{@user.email}/
   end
 
   test '#show should display a link to edit the registration info if current user is the same' do
@@ -109,6 +116,19 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
       assert_select 'div.well a[href=?]', post_path(p)
       assert_select 'div.well p', match: /#{p.content[0...300]}/mi
     end
+  end
+
+  test '#show should display the total number of posts for the user' do
+    get user_path(@user)
+    assert_not_nil assigns(:posts)
+    assert_select 'dt', text: 'Posts'
+    assert_select 'dd', text: @user.posts.count.to_s
+  end
+
+  test '#show should display the total number of likes for his posts' do
+    get user_path(@user)
+    assert_select 'dt', text: 'Likes'
+    assert_select 'dd', text: @user.total_likes.to_s
   end
 
   test 'should get #edit' do
