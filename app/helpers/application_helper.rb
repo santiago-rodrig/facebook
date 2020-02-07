@@ -4,9 +4,9 @@ module ApplicationHelper
     is_not_edit = controller.action_name != 'edit'
 
     if is_included && is_not_edit
-      return "<body class='full-black'>".html_safe
+      "<body class='full-black'>".html_safe
     else
-      return "<body".html_safe
+      '<body'.html_safe
     end
   end
 
