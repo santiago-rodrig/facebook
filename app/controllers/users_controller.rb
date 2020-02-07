@@ -41,24 +41,6 @@ class UsersController < ApplicationController
     end
   end
 
-  def like_post
-    @post = Post.find(params[:post_id])
-    @user = User.find(params[:id])
-
-    @user.like(@post) unless @post.likers.include? @user
-
-    redirect_back(fallback_location: root_path)
-  end
-
-  def unlike_post
-    @post = Post.find(params[:post_id])
-    @user = User.find(params[:id])
-
-    @user.unlike(@post) if @post.likers.include? @user
-
-    redirect_back(fallback_location: root_path)
-  end
-
   def comment_post
     @user = User.find(comment_params[:user_id])
     @post = Post.find(comment_params[:post_id])

@@ -207,11 +207,6 @@ class PostsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'a[href=?]', post_path(@post), 0, text: 'Delete'
   end
 
-  test '#show displays link to like post' do
-    get post_path(@post)
-    assert_select 'a[href=?]', like_post_user_path(id: @user.id, post_id: @post.id)
-  end
-
   test '#show displays likes count' do
     get post_path(@post)
     assert_select 'span.glyphicon.glyphicon-thumbs-up'
