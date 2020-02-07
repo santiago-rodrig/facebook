@@ -35,22 +35,22 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   end
 
   test '#friend_requests should return http success' do
-    get friend_requests_user_path(@user)
+    get friend_requests_path(user_id: @user.id)
     assert_response :success
   end
 
   test '#friend_requests sets @requests' do
-    get friend_requests_user_path(@user)
+    get friend_requests_path(user_id: @user.id)
     assert_not_nil assigns(:requests)
   end
 
   test '#friend_requests displays a proper heading' do
-    get friend_requests_user_path(@user)
+    get friend_requests_path(user_id: @user.id)
     assert_select 'h1', text: 'Your friend requests'
   end
 
   test '#friend_requests displays a list of requesters' do
-    get friend_requests_user_path(@user)
+    get friend_requests_path(user_id: @user.id)
 
     assigns(:requests).each do |r|
       assert_select 'dl dt', text: 'Name'
@@ -60,53 +60,53 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   end
 
   test '#friend_requests displays a list of requesters with accept and reject links' do
-    get friend_requests_user_path(@user)
+    get friend_requests_path(user_id: @user.id)
 
     assigns(:requests).each do |r|
       assert_select 'div.well a[href=?].btn.btn-success',
-                    accept_friend_request_user_path(id: @user.id, friend_id: r.user.id),
+                    accept_friend_request_path(user_id: @user.id, friend_id: r.user.id),
                     text: 'Accept'
       assert_select 'div.well a[href=?].btn.btn-danger',
-                    reject_friend_request_user_path(id: @user.id, friend_id: r.user.id),
+                    reject_friend_request_path(user_id: @user.id, friend_id: r.user.id),
                     text: 'Reject'
     end
   end
 
   test '#accept_friend_request should confirm the friendship' do
-    post(accept_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
+    post(accept_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
     assert @other_user.friendships.find_by(friend_id: @user.id).confirmed?
   end
 
   test '#accept_friend_request should redirect to friend_requests' do
-    post(accept_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
-    assert_redirected_to friend_requests_user_path(@user)
+    post(accept_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
+    assert_redirected_to friend_requests_path(user_id: @user.id)
   end
 
   test '#accept_friend_request should display a flash message after redirecting' do
-    post(accept_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
+    post(accept_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
     follow_redirect!
     assert_equal "you and #{@other_user.full_name} are now friends!", flash[:success]
   end
 
   test '#reject_friend_request should delete the friendship' do
-    delete(reject_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
+    delete(reject_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
     assert_nil @other_user.friendships.find_by(friend_id: @user.id)
   end
 
   test '#reject_friend_request should redirect to friend_requests' do
-    delete(reject_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
-    assert_redirected_to friend_requests_user_path(@user)
+    delete(reject_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
+    assert_redirected_to friend_requests_path(user_id: @user.id)
   end
 
   test '#reject_friend_request should display a flash message after redirecting' do
-    delete(reject_friend_request_user_path(id: @user.id, friend_id: @other_user.id))
+    delete(reject_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
     follow_redirect!
     assert_equal "you rejected #{@other_user.full_name} friendship proposal", flash[:info]
   end
 
   test 'users#friend_request should display an alert message if there are no requests' do
     @other_user.friends.delete(@user)
-    get friend_requests_user_path(@user)
+    get friend_requests_path(user_id: @user.id)
     assert_select 'div.alert.alert-info', text: 'You have no friend requests.'
   end
 
@@ -115,14 +115,14 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
 
     (assigns(:first_half) + assigns(:second_half)).each do |u|
       if u != @user && !@user.real_friends.include?(u) && !@user.friends.include?(u)
-        assert_select 'a[href=?].btn.btn-primary', ask_friendship_user_path(id: @user.id, friend_id: u.id)
+        assert_select 'a[href=?].btn.btn-primary', ask_friendship_path(user_id: @user.id, friend_id: u.id)
       end
     end
   end
 
   test 'users#ask_friendship should create a pending friedship request' do
     assert_difference '@user.friends.count' do
-      post(ask_friendship_user_path(id: @user.id, friend_id: @other_user.id))
+      post(ask_friendship_path(user_id: @user.id, friend_id: @other_user.id))
     end
   end
 
@@ -145,30 +145,30 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   end
 
   test 'users#friends_index should return http success' do
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
     assert_response :success
   end
 
   test 'users#friends sets users variable' do
     @other_user.friendships.first.toggle!(:confirmed)
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
     assert_not_nil assigns(:users)
     assert_equal @user.real_friends.paginate(page: controller.params[:page], per_page: 12), assigns(:users)
   end
 
   test 'users#friends sets the title variable' do
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
     assert_equal 'Your friends', assigns(:title)
   end
 
   test 'users#friends sets the partial variable' do
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
     assert_equal 'friend', assigns(:partial)
   end
 
   test 'users#friends sets first_half and second_half' do
     @other_user.friendships.first.toggle!(:confirmed)
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
     assert_not_nil assigns(:first_half)
     assert_not_nil assigns(:second_half)
 
@@ -183,7 +183,7 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
 
   test 'users#friends list all friends' do
     @other_user.friendships.first.toggle!(:confirmed)
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
 
     (assigns(:first_half) + assigns(:second_half)).each do |f|
       assert_select 'a[href=?] img[src=?]', user_path(f), f.image_url
@@ -198,15 +198,15 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
 
   test 'users#friends list all friends with links to cancel friendship' do
     @other_user.friendships.first.toggle!(:confirmed)
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
 
     (assigns(:first_half) + assigns(:second_half)).each do |f|
-      assert_select 'a[href=?]', cancel_friendship_user_path(id: @user.id, friend_id: f.id)
+      assert_select 'a[href=?]', cancel_friendship_path(user_id: @user.id, friend_id: f.id)
     end
   end
 
   test 'users#friends displays an alert message if there are no friends' do
-    get friends_user_path(@user)
+    get friends_path(user_id: @user.id)
     assert_select 'div.alert.alert-info', match: /.*You have no friends! :\(,.*/
     assert_select 'div.alert.alert-info a[href=?]', users_path, text: 'add some'
   end
@@ -214,14 +214,14 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   test 'users#cancel_friendship deletes the friendship' do
     @other_user.friendships.first.toggle!(:confirmed)
     assert_difference('@other_user.friends.count', -1) do
-      delete(cancel_friendship_user_path(id: @user.id, friend_id: @other_user.id))
+      delete(cancel_friendship_path(user_id: @user.id, friend_id: @other_user.id))
     end
   end
 
   test 'users#cancel_friendship redirects to users#friends' do
     @other_user.friendships.first.toggle!(:confirmed)
-    delete(cancel_friendship_user_path(id: @user.id, friend_id: @other_user.id))
-    assert_redirected_to friends_user_path(@user)
+    delete(cancel_friendship_path(user_id: @user.id, friend_id: @other_user.id))
+    assert_redirected_to friends_path(user_id: @user.id)
   end
 end
 # rubocop:enable Metrics/ClassLength

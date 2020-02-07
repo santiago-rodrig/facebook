@@ -31,7 +31,7 @@ class NavigationTest < ActionDispatch::IntegrationTest
 
   test 'it displays a friend requests link' do
     get root_path
-    assert_select 'ul.nav.navbar-nav.navbar-right li a[href=?]', friend_requests_user_path(@user)
+    assert_select 'ul.nav.navbar-nav.navbar-right li a[href=?]', friend_requests_path(user_id: @user)
   end
 
   test 'it displays the number of friend requests without checking' do
@@ -42,6 +42,6 @@ class NavigationTest < ActionDispatch::IntegrationTest
 
   test 'it displays a link to the user friends' do
     get root_path
-    assert_select 'ul.nav.navbar-nav.navbar-right li a[href=?]', friends_user_path(@user), text: 'Friends'
+    assert_select 'ul.nav.navbar-nav.navbar-right li a[href=?]', friends_path(user_id: @user), text: 'Friends'
   end
 end

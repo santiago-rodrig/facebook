@@ -11,7 +11,7 @@
     </dl>
     <% if %>
       <div class="cleared pull-right">
-        <%= link_to 'Cancel friendship', cancel_friendship_user_path(id: current_user.id, friend_id: friend.id), method: :delete, class: 'btn btn-danger' %>
+        <%= link_to 'Cancel friendship', cancel_friendship_path(user_id: current_user.id, friend_id: friend.id), method: :delete, class: 'btn btn-danger' %>
       </div>
     <% end %>
   </div>
