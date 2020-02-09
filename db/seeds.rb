@@ -12,7 +12,7 @@ Post.delete_all
 Comment.delete_all
 Like.delete_all
 # Creates 10 random generated users with posts
-50.times do
+30.times do
   pass = Faker::Internet.password(min_length: 6)
 
   user = User.create(

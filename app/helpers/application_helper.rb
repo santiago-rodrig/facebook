@@ -6,7 +6,7 @@ module ApplicationHelper
     if is_included && is_not_edit
       "<body class='full-black'>".html_safe
     else
-      '<body'.html_safe
+      '<body>'.html_safe
     end
   end
 
