@@ -75,6 +75,8 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   test '#accept_friend_request should confirm the friendship' do
     post(accept_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
     assert @other_user.friendships.find_by(friend_id: @user.id).confirmed?
+    assert @user.friends.include?(@other_user)
+    assert @user.friendships.find_by(friend_id: @other_user.id).confirmed?
   end
 
   test '#accept_friend_request should redirect to friend_requests' do
@@ -90,7 +92,7 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
 
   test '#reject_friend_request should delete the friendship' do
     delete(reject_friend_request_path(user_id: @user.id, friend_id: @other_user.id))
-    assert_nil @other_user.friendships.find_by(friend_id: @user.id)
+    assert_not @other_user.friends.include?(@user)
   end
 
   test '#reject_friend_request should redirect to friend_requests' do
@@ -129,7 +131,7 @@ class UserFriendsTest < ActionDispatch::IntegrationTest
   test 'users#index should display the relation status for each user' do
     get users_path
 
-    (assigns(:users) + assigns(:second_half)).each do |u|
+    (assigns(:first_half) + assigns(:second_half)).each do |u|
       assert_select 'dt', text: 'Relation'
 
       if @user.real_friends.include?(u)
