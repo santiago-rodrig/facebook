@@ -65,7 +65,7 @@ class User < ApplicationRecord
   end
 
   def real_friends
-    ids = friendships.where('confirmed').map { |e| e.friend_id }
+    ids = friendships.where('confirmed').map(&:friend_id)
 
     User.where(id: ids)
   end
