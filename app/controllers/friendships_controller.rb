@@ -7,7 +7,7 @@ class FriendshipsController < ApplicationController
   def accept_friend_request
     @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-    @friend.friendships.find_by(friend_id: @user.id).toggle!(:confirmed)
+    @user.accept_friend(@friend)
     flash[:success] = "you and #{@friend.full_name} are now friends!"
 
     redirect_to friend_requests_path(user_id: @user.id)
@@ -16,7 +16,7 @@ class FriendshipsController < ApplicationController
   def reject_friend_request
     @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-    @friend.friendships.find_by(friend_id: @user.id).destroy
+    @user.reject_friend(@friend)
     flash[:info] = "you rejected #{@friend.full_name} friendship proposal"
 
     redirect_to friend_requests_path(user_id: @user.id)
@@ -51,17 +51,7 @@ class FriendshipsController < ApplicationController
   def cancel_friendship
     @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-
-    @friend.friendships.reject do |f|
-      f.friend.id == @user.id
-    end
-
-    @user.friendships.reject do |f|
-      f.friend.id == @friend.id
-    end
-
-    @friend.friends.delete(@user)
-    @user.friends.delete(@friend)
+    @user.cancel_friend(@friend)
 
     redirect_to friends_path(user_id: @user.id)
   end

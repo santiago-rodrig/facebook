@@ -49,14 +49,23 @@ class User < ApplicationRecord
     Friendship.requesters(self).count
   end
 
+  def accept_friend(friend)
+    friends << friend
+    friendships.find_by(friend_id: friend.id).toggle!(:confirmed)
+    friend.friendships.find_by(friend_id: id).toggle!(:confirmed)
+  end
+
+  def reject_friend(friend)
+    friend.friends.delete(self)
+  end
+
+  def cancel_friend(friend)
+    friend.friends.delete(self)
+    friends.delete(friend)
+  end
+
   def real_friends
-    ids = Friendship.where('(user_id = ? AND confirmed) OR (friend_id = ? AND confirmed)', id, id).map do |f|
-      if f.user.id == id
-        f.friend_id
-      else
-        f.user_id
-      end
-    end
+    ids = friendships.where('confirmed').map { |e| e.friend_id }
 
     User.where(id: ids)
   end

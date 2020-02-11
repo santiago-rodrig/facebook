@@ -103,4 +103,86 @@ class UserTest < ActiveSupport::TestCase
   test 'it has feed collection of posts' do
     assert_respond_to User.new, :feed
   end
+
+  test '#accept friend confirms both friendships and create a new one' do
+    @user = User.create(
+      email: 'bob@example.net',
+      first_name: 'bob',
+      last_name: 'sinclair',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
+
+    @other = User.create(
+      email: 'elena@example.org',
+      first_name: 'elena',
+      last_name: 'guthrie',
+      password: 'pirate',
+      password_confirmation: 'pirate'
+    )
+
+    @other.friends << @user
+
+    assert_difference('Friendship.count') do
+      @user.accept_friend(@other)
+    end
+
+    assert @user.friendships.find_by(friend_id: @other.id).confirmed?
+    assert @other.friendships.find_by(friend_id: @user.id).confirmed?
+  end
+
+  test '#reject_friend deletes the friendship and clears friends' do
+    @user = User.create(
+      email: 'bob@example.net',
+      first_name: 'bob',
+      last_name: 'sinclair',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
+
+    @other = User.create(
+      email: 'elena@example.org',
+      first_name: 'elena',
+      last_name: 'guthrie',
+      password: 'pirate',
+      password_confirmation: 'pirate'
+    )
+
+    @other.friends << @user
+
+    assert_difference('Friendship.count', -1) do
+      @user.reject_friend(@other)
+    end
+
+    assert_not @other.friends.include?(@user)
+  end
+
+  test '#cancel_friend deletes friendship on both ends' do
+    @user = User.create(
+      email: 'bob@example.net',
+      first_name: 'bob',
+      last_name: 'sinclair',
+      password: 'secret',
+      password_confirmation: 'secret'
+    )
+
+    @other = User.create(
+      email: 'elena@example.org',
+      first_name: 'elena',
+      last_name: 'guthrie',
+      password: 'pirate',
+      password_confirmation: 'pirate'
+    )
+
+    @other.friends << @user
+    @user.accept_friend(@other)
+
+    assert_difference('Friendship.count', -2) do
+      @user.cancel_friend(@other)
+    end
+
+    @user.cancel_friend(@other)
+    assert_not @user.friends.include?(@other)
+    assert_not @other.friends.include?(@user)
+  end
 end
