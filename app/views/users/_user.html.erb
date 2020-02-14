@@ -9,7 +9,7 @@
       <dt>Likes</dt>
       <dd><%= user.total_likes %></dd>
       <dt>Relation</dt>
-      <dd><mark><%= relation_with(user) %></mark></dd>
+      <dd><mark><%= relation_with(current_user, user) %></mark></dd>
     </dl>
     <%= ask_friendship(current_user, user) %>
   </div>
