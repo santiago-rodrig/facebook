@@ -40,7 +40,6 @@
   </div>
   <div class="col-md-8 col-md-offset-2 mt-2">
     <%= form_for(:comment, url: comment_post_path) do |f| %>
-      <%= f.hidden_field :user_id, value: "#{current_user.id}" %>
       <%= f.hidden_field :post_id, value: "#{@post.id}" %>
       <div class="form-group">
         <%= f.label :body, 'What do you think?' %>
