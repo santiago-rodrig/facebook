@@ -17,7 +17,7 @@ module FriendshipsHelper
   end
 
   def put_requests(requests)
-    if @requests.any?
+    if requests.any?
       render partial: 'friendships/request', collection: requests
     else
       msg_emty = <<-EMPTY
