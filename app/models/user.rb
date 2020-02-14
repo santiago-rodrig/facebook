@@ -72,7 +72,6 @@ class User < ApplicationRecord
 
   def real_friends
     ids = friendships.where('confirmed').map(&:friend_id)
-
     User.where(id: ids)
   end
 
