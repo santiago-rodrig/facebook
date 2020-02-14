@@ -1,7 +1,7 @@
 module ApplicationHelper
-  def body_painted_if_devise
-    is_included = %w[sessions registrations].include?(controller.controller_name)
-    is_not_edit = controller.action_name != 'edit'
+  def body_painted_if_devise(name, action)
+    is_included = %w[sessions registrations].include?(name)
+    is_not_edit = action != 'edit'
 
     if is_included && is_not_edit
       "<body class='full-black'>".html_safe
@@ -10,8 +10,8 @@ module ApplicationHelper
     end
   end
 
-  def navigation_if_logged
-    return unless user_signed_in?
+  def navigation_if_logged(is_logged)
+    return unless is_logged
 
     render(partial: 'layouts/navigation')
   end
