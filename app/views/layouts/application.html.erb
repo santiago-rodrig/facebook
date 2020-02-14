@@ -10,6 +10,7 @@
   <%= body_painted_if_devise(controller.controller_name, controller.action_name) %>
     <%= navigation_if_logged(user_signed_in?) %>
     <div class="container">
+      <%= render partial: 'layouts/alerts' %>
       <%= yield %>
     </div>
   </body>
