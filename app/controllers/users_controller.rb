@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def index
     @title = 'All users'
     @users = User.paginate(page: params[:page], per_page: 12)
-    @partial = 'user'
+    @partial = 'users/user'
 
     if params[:page]
       @first_half = @users.offset(12 * (params[:page].to_i - 1)).first(6)

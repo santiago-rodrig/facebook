@@ -148,7 +148,7 @@ RSpec.describe FriendshipsController, type: :controller do
       @first_half = @users.first(6)
       @second_half = @users.offset(6).first(6)
       @title = 'Your friends'
-      @partial = 'friend'
+      @partial = 'friendships/friend'
       get :friends_index
     end
 

@@ -29,7 +29,7 @@ class FriendshipsController < ApplicationController
 
   def friends_index
     @title = 'Your friends'
-    @partial = 'friend'
+    @partial = 'friendships/friend'
     @users = current_user.real_friends.paginate(page: params[:page], per_page: 12)
 
     if params[:page]
