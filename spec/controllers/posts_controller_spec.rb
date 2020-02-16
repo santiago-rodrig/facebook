@@ -15,10 +15,10 @@ RSpec.describe PostsController, type: :controller do
 
   describe '#index' do
     before do
-      @posts = @bob.
-        feed.
-        recents.
-        paginate(page: @controller.params[:page], per_page: 10)
+      @posts = @bob
+        .feed
+        .recents
+        .paginate(page: @controller.params[:page], per_page: 10)
 
       @first_half = @posts.first(5)
       @second_half = @posts.offset(5).first(5)

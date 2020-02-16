@@ -33,12 +33,12 @@ RSpec.describe 'posts/edit', type: :view do
 
   it 'displays a textarea for the content' do
     expect(rendered).to(
-      have_selector("textarea#post_content")
+      have_selector('textarea#post_content')
     )
 
     expect(rendered).to(
       match(
-        /.*<textarea.*>.*#{@post.content}.*<\/textarea>.*/mi
+        %r{.*<textarea.*>.*#{@post.content}.*</textarea>.*}mi
       )
     )
   end

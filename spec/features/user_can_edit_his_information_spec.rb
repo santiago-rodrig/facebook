@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanEditHisInformations", type: :feature do
+# rubocop:disable Metrics/BlockLength
+RSpec.feature 'UserCanEditHisInformations', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',
@@ -37,3 +38,4 @@ RSpec.feature "UserCanEditHisInformations", type: :feature do
     expect(user.birthday).to eq(Date.new(1996, 11, 29))
   end
 end
+# rubocop:enable Metrics/BlockLength

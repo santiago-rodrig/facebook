@@ -2,7 +2,6 @@ require 'rails_helper'
 
 RSpec.describe ApplicationHelper, type: :helper do
   describe '#body_painted_if_devise' do
-
     # is well known that controller.controller_name returns the name of
     # the controller in question as a string. Let's test with different
     # strings

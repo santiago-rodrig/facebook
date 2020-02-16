@@ -58,7 +58,7 @@ RSpec.describe CommentsController, type: :controller do
       end
     end
 
-    context' the user does not own the post' do
+    context ' the user does not own the post' do
       before do
         sign_out(@user)
         sign_in(@other_user)

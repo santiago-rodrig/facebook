@@ -23,6 +23,7 @@ RSpec.describe 'friendships/friend_requests', type: :view do
     assign(:requests, @requests)
   end
 
+  # rubocop:disable Metrics/BlockLength
   context 'the user has no friend requests' do
     before do
       render
@@ -31,7 +32,7 @@ RSpec.describe 'friendships/friend_requests', type: :view do
     it 'displays "Your friend requests" as a h1' do
       expect(rendered).to(
         match(
-          /.*<h1.*>Your friend requests<\/h1>.*/mi
+          %r{.*<h1.*>Your friend requests</h1>.*}mi
         )
       )
     end
@@ -52,7 +53,7 @@ RSpec.describe 'friendships/friend_requests', type: :view do
       @requests.each do |r|
         expect(rendered).not_to(
           match(
-            /.*<dt>Name<\/dt>.*<dd>#{r.user.full_name}<\/dd>.*/mi
+            %r{.*<dt>Name</dt>.*<dd>#{r.user.full_name}</dd>.*}mi
           )
         )
       end
@@ -81,7 +82,7 @@ RSpec.describe 'friendships/friend_requests', type: :view do
     it 'displays an alert telling that the user has no friend requests' do
       expect(rendered).to(
         match(
-          /.*<div.*class="(alert)|(alert\-info)".*>.*You have no friend requests\..*<\/div>.*/mi
+          %r{.*<div.*class="(alert)|(alert\-info)".*>.*You have no friend requests\..*</div>.*}mi
         )
       )
     end
@@ -96,7 +97,7 @@ RSpec.describe 'friendships/friend_requests', type: :view do
     it 'displays "Your friend requests" as a h1' do
       expect(rendered).to(
         match(
-          /.*<h1.*>Your friend requests<\/h1>.*/mi
+          %r{.*<h1.*>Your friend requests</h1>.*}mi
         )
       )
     end
@@ -117,7 +118,7 @@ RSpec.describe 'friendships/friend_requests', type: :view do
       @requests.each do |r|
         expect(rendered).to(
           match(
-            /.*<dt>Name<\/dt>.*<dd>#{r.user.full_name}<\/dd>.*/mi
+            %r{.*<dt>Name</dt>.*<dd>#{r.user.full_name}</dd>.*}mi
           )
         )
       end
@@ -146,9 +147,10 @@ RSpec.describe 'friendships/friend_requests', type: :view do
     it 'does not display an alert telling that the user has no friend requests' do
       expect(rendered).not_to(
         match(
-          /.*<div.*class="(alert)|(alert\-info)".*>.*You have no friºend requests\..*<\/div>.*/mi
+          %r{.*<div.*class="(alert)|(alert\-info)".*>.*You have no friºend requests\..*</div>.*}mi
         )
       )
     end
   end
+  # rubocop:enable Metrics/BlockLength
 end

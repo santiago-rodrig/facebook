@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanCancelHisAccounts", type: :feature do
+RSpec.feature 'UserCanCancelHisAccounts', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',

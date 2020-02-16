@@ -17,10 +17,10 @@ RSpec.describe 'shared/index', type: :view do
     end
 
     it 'displays all user names' do
-      @combined.each do |user|
+      @combined.each do |_user|
         expect(rendered).to(
           have_selector(
-            "dt[value=\"Name\"] + dd[value=\"user.full_name\"]"
+            'dt[value="Name"] + dd[value="user.full_name"]'
           )
         )
       end
@@ -82,13 +82,14 @@ RSpec.describe 'shared/index', type: :view do
       assign(:partial, @partial)
     end
 
+    # rubocop:disable Metrics/BlockLength
     context 'the user has no friends' do
       before do
-        @users = @controller.current_user.
-        real_friends.
-        paginate(
-          page: @controller.params[:page], per_page: 12
-        )
+        @users = @controller.current_user
+          .real_friends
+          .paginate(
+            page: @controller.params[:page], per_page: 12
+          )
 
         @first_half = @users.first(6)
         @second_half = @users.offset(6).first(6)
@@ -102,7 +103,7 @@ RSpec.describe 'shared/index', type: :view do
       it 'displays an alert telling that the user has no friends' do
         expect(rendered).to(
           match(
-            /.*<div.*class="(alert)|(alert\-info)".*>.*You have no friends! :\(,.*<\/div>/mi
+            %r{.*<div.*class="(alert)|(alert\-info)".*>.*You have no friends! :\(,.*</div>}mi
           )
         )
       end
@@ -123,19 +124,19 @@ RSpec.describe 'shared/index', type: :view do
         @combined.each do |f|
           expect(rendered).not_to(
             match(
-              /.*<dt>Name<\/dt>.*<dd>#{f.full_name}<\/dd>.*/mi
+              %r{.*<dt>Name</dt>.*<dd>#{f.full_name}</dd>.*}mi
             )
           )
 
           expect(rendered).not_to(
             match(
-              /.*<dt>Posts<\/dt>.*<dd>#{f.posts.count}<\/dd>.*/mi
+              %r{.*<dt>Posts</dt>.*<dd>#{f.posts.count}</dd>.*}mi
             )
           )
 
           expect(rendered).not_to(
             match(
-              /.*<dt>Likes<\/dt>.*<dd>#{f.total_likes}<\/dd>.*/mi
+              %r{.*<dt>Likes</dt>.*<dd>#{f.total_likes}</dd>.*}mi
             )
           )
         end
@@ -158,11 +159,11 @@ RSpec.describe 'shared/index', type: :view do
       before do
         @user.friends << @friend
         @friend.accept_friend(@user)
-        @users = @controller.current_user.
-        real_friends.
-        paginate(
-          page: @controller.params[:page], per_page: 12
-        )
+        @users = @controller.current_user
+          .real_friends
+          .paginate(
+            page: @controller.params[:page], per_page: 12
+          )
 
         @first_half = @users.first(6)
         @second_half = @users.offset(6).first(6)
@@ -176,7 +177,7 @@ RSpec.describe 'shared/index', type: :view do
       it 'does not display an alert telling that the user has no friends' do
         expect(rendered).not_to(
           match(
-            /.*<div.*class="(alert)|(alert\-info)".*>.*You have no friends! :\(,.*<\/div>/mi
+            %r{.*<div.*class="(alert)|(alert\-info)".*>.*You have no friends! :\(,.*</div>}mi
           )
         )
       end
@@ -197,19 +198,19 @@ RSpec.describe 'shared/index', type: :view do
         @combined.each do |f|
           expect(rendered).to(
             match(
-              /.*<dt>Name<\/dt>.*<dd>#{f.full_name}<\/dd>.*/mi
+              %r{.*<dt>Name</dt>.*<dd>#{f.full_name}</dd>.*}mi
             )
           )
 
           expect(rendered).to(
             match(
-              /.*<dt>Posts<\/dt>.*<dd>#{f.posts.count}<\/dd>.*/mi
+              %r{.*<dt>Posts</dt>.*<dd>#{f.posts.count}</dd>.*}mi
             )
           )
 
           expect(rendered).to(
             match(
-              /.*<dt>Likes<\/dt>.*<dd>#{f.total_likes}<\/dd>.*/mi
+              %r{.*<dt>Likes</dt>.*<dd>#{f.total_likes}</dd>.*}mi
             )
           )
         end
@@ -227,5 +228,6 @@ RSpec.describe 'shared/index', type: :view do
         end
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

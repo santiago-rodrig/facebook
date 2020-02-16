@@ -5,11 +5,11 @@ module FriendshipsHelper
     not_requested = !user.friends.include?(friend)
     not_all_three = not_the_same && not_a_friend && not_requested
 
-ask_button = <<-BTN
+    ask_button = <<-BTN
   <div class="cleared pull-right">
     #{link_to 'Ask friendship', ask_friendship_path(friend_id: friend.id), method: :post, class: 'btn btn-primary'}
   </div>
-BTN
+    BTN
 
     return unless not_all_three
 
@@ -20,13 +20,13 @@ BTN
     if requests.any?
       render partial: 'friendships/request', collection: requests
     else
-msg_emty = <<-EMPTY
+      msg_emty = <<-EMPTY
   <div class="col-sm-6 col-sm-offset-3">
     <div class="alert alert-info">
       You have no friend requests.
     </div>
   </div>
-EMPTY
+      EMPTY
 
       msg_emty.html_safe
     end

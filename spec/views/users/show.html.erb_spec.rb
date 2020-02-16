@@ -28,7 +28,7 @@ RSpec.describe 'users/show', type: :view do
 
     expect(rendered).to(
       match(
-        /.*<div class="alert alert\-info".*>.*You have no posts.*<\/div>.*/mi
+        %r{.*<div class="alert alert\-info".*>.*You have no posts.*</div>.*}mi
       )
     )
   end
@@ -39,7 +39,7 @@ RSpec.describe 'users/show', type: :view do
     expect(rendered).to have_content('Your Profile')
     expect(rendered).to(
       match(
-        /.*<h1.*>.*Your Profile.*<\/h1>.*/mi
+        %r{.*<h1.*>.*Your Profile.*</h1>.*}mi
       )
     )
   end
@@ -61,11 +61,12 @@ RSpec.describe 'users/show', type: :view do
     expect(rendered).to have_content("#{@user.full_name} Profile")
     expect(rendered).to(
       match(
-        /.*<h1.*>.*#{@user.full_name} Profile.*<\/h1>.*/mi
+        %r{.*<h1.*>.*#{@user.full_name} Profile.*</h1>.*}mi
       )
     )
   end
 
+  # rubocop:disable Metrics/BlockLength
   it 'displays the user info in a list' do
     render
     expect(rendered).to have_selector('dl.user-info')
@@ -74,40 +75,41 @@ RSpec.describe 'users/show', type: :view do
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Phone.*<\/dt>.*<dd>.*#{@user.phone}.*<\/dd>.*/mi
+        %r{.*<dt>.*Phone.*</dt>.*<dd>.*#{@user.phone}.*</dd>.*}mi
       )
     )
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Email.*<\/dt>.*<dd>.*#{@user.email}.*<\/dd>.*/mi
+        %r{.*<dt>.*Email.*</dt>.*<dd>.*#{@user.email}.*</dd>.*}mi
       )
     )
 
     expect(rendered).to(
       match(
-        /.*<dt>.*First name.*<\/dt>.*<dd>.*#{@user.first_name}.*<\/dd>.*/mi
+        %r{.*<dt>.*First name.*</dt>.*<dd>.*#{@user.first_name}.*</dd>.*}mi
       )
     )
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Last name.*<\/dt>.*<dd>.*#{@user.last_name}.*<\/dd>.*/mi
+        %r{.*<dt>.*Last name.*</dt>.*<dd>.*#{@user.last_name}.*</dd>.*}mi
       )
     )
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Birthday.*<\/dt>.*<dd>.*#{@user.birthday}.*<\/dd>.*/mi
+        %r{.*<dt>.*Birthday.*</dt>.*<dd>.*#{@user.birthday}.*</dd>.*}mi
       )
     )
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Gender.*<\/dt>.*<dd>.*#{@user.gender}.*<\/dd>.*/mi
+        %r{.*<dt>.*Gender.*</dt>.*<dd>.*#{@user.gender}.*</dd>.*}mi
       )
     )
   end
+  # rubocop:enable Metrics/BlockLength
 
   it 'displays a link to edit the registration data if the current user is the same' do
     render
@@ -157,7 +159,7 @@ RSpec.describe 'users/show', type: :view do
     @combined.each do |p|
       expect(rendered).to(
         match(
-          /.*<h3.*>.*#{p.title}.*<\/h3>.*/mi
+          %r{.*<h3.*>.*#{p.title}.*</h3>.*}mi
         )
       )
 
@@ -186,7 +188,7 @@ RSpec.describe 'users/show', type: :view do
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Posts.*<\/dt>.*<dd>.*#{@user.posts.count}.*<\/dd>.*/mi
+        %r{.*<dt>.*Posts.*</dt>.*<dd>.*#{@user.posts.count}.*</dd>.*}mi
       )
     )
   end
@@ -196,7 +198,7 @@ RSpec.describe 'users/show', type: :view do
 
     expect(rendered).to(
       match(
-        /.*<dt>.*Likes.*<\/dt>.*<dd>.*#{@user.total_likes}.*<\/dd>.*/mi
+        %r{.*<dt>.*Likes.*</dt>.*<dd>.*#{@user.total_likes}.*</dd>.*}mi
       )
     )
   end

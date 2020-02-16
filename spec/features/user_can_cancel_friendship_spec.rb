@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanCancelFriendships", type: :feature do
+# rubocop:disable Metrics/BlockLength
+RSpec.feature 'UserCanCancelFriendships', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',
@@ -41,7 +42,7 @@ RSpec.feature "UserCanCancelFriendships", type: :feature do
     expect(user.friends).to include(other_user)
     find_link(href: cancel_friendship_path(friend_id: other_user.id)).click
     expect(page).to have_current_path(friends_path)
-    [user, other_user].each { |e| e.reload }
+    [user, other_user].each(&:reload)
     expect(user.friends).not_to include(other_user)
     expect(other_user.friends).not_to include(other_user)
 
@@ -50,3 +51,4 @@ RSpec.feature "UserCanCancelFriendships", type: :feature do
     )
   end
 end
+# rubocop:enable Metrics/BlockLength

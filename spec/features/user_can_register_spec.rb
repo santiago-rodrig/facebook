@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanRegisters", type: :feature do
+RSpec.feature 'UserCanRegisters', type: :feature do
   it 'registers a user' do
     users_count = User.count
     visit(new_user_registration_path)

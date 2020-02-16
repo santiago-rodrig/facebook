@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanEditHisAccounts", type: :feature do
+# rubocop:disable Metrics/BlockLength
+RSpec.feature 'UserCanEditHisAccounts', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',
@@ -41,3 +42,4 @@ RSpec.feature "UserCanEditHisAccounts", type: :feature do
     expect(user.encrypted_password).not_to eq(old_password)
   end
 end
+# rubocop:enable Metrics/BlockLength

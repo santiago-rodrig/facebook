@@ -4,7 +4,7 @@ module UsersHelper
     friendship = other_user.friendships.find_by(friend_id: user.id)
 
     requested = user.friends.include?(other_user) ||
-      other_user.friends.include?(user)
+                other_user.friends.include?(user)
 
     confirmed = friendship&.confirmed?
 

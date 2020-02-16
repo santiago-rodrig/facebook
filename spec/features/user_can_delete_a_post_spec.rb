@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanDeleteAPosts", type: :feature do
+RSpec.feature 'UserCanDeleteAPosts', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',

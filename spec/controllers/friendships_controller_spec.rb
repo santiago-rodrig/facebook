@@ -142,8 +142,8 @@ RSpec.describe FriendshipsController, type: :controller do
       @user.friends << @friend
       @friend.accept_friend(@user)
 
-      @users = @controller.current_user.real_friends.
-        paginate(page: @controller.params[:page], per_page: 12)
+      @users = @controller.current_user.real_friends
+        .paginate(page: @controller.params[:page], per_page: 12)
 
       @first_half = @users.first(6)
       @second_half = @users.offset(6).first(6)

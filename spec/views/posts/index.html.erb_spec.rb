@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'posts/index', type: :view do
+  # rubocop:disable Metrics/BlockLength
   before do
     @user = User.create(
       email: 'bob@example.com',
@@ -11,9 +12,9 @@ RSpec.describe 'posts/index', type: :view do
     )
 
     @user.posts.create([
-      { title: 'Post 1', content: 'Stuffs' },
-      { title: 'Post 2', content: 'Stuffs' }
-    ])
+                         { title: 'Post 1', content: 'Stuffs' },
+                         { title: 'Post 2', content: 'Stuffs' }
+                       ])
 
     @jen = User.create(
       email: 'jen@example.com',
@@ -27,14 +28,14 @@ RSpec.describe 'posts/index', type: :view do
     @jen.accept_friend(@user)
 
     @jen.posts.create([
-      { title: 'Jen wrote this', content: 'Whatevs' },
-      { title: 'Jen also wrote this', content: 'Blurp' }
-    ])
+                        { title: 'Jen wrote this', content: 'Whatevs' },
+                        { title: 'Jen also wrote this', content: 'Blurp' }
+                      ])
 
     sign_in(@user)
 
-    @posts = @user.feed.recents.
-      paginate(page: @controller.params[:page], per_page: 10)
+    @posts = @user.feed.recents
+      .paginate(page: @controller.params[:page], per_page: 10)
 
     @first_half = @posts.first(5)
     @second_half = @posts.offset(5).first(5)
@@ -45,6 +46,7 @@ RSpec.describe 'posts/index', type: :view do
     assign(:second_half, @second_half)
     assign(:title, @title)
   end
+  # rubocop:enable Metrics/BlockLength
 
   it 'displays "Your feed" as a heading' do
     render
@@ -52,7 +54,7 @@ RSpec.describe 'posts/index', type: :view do
     expect(rendered).to have_content('Your feed')
     expect(rendered).to(
       match(
-        /.*<h1.*>.*Your feed.*<\/h1>.*/mi
+        %r{.*<h1.*>.*Your feed.*</h1>.*}mi
       )
     )
   end
@@ -81,12 +83,11 @@ RSpec.describe 'posts/index', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<div.*class=\"(alert)|(alert\-info)\".*>.*Your feed is empty!.*<\/div>.*/mi
+          %r{.*<div.*class=\"(alert)|(alert\-info)\".*>.*Your feed is empty!.*</div>.*}mi
         )
       )
     end
   end
-
 
   context 'posts to show' do
     it 'displays the posts in the feed of the user' do
@@ -95,7 +96,7 @@ RSpec.describe 'posts/index', type: :view do
       @combined.each do |p|
         expect(rendered).to(
           match(
-            /.*<div.*class=\"well\".*>.*#{p.title}.*#{p.content}.*<\/div>.*/mi
+            %r{.*<div.*class=\"well\".*>.*#{p.title}.*#{p.content}.*</div>.*}mi
           )
         )
 
@@ -113,7 +114,7 @@ RSpec.describe 'posts/index', type: :view do
 
         expect(rendered).to(
           match(
-            /.*<span.*class=\"badge\".*>.*#{p.likers.count}.*<\/span>.*/mi
+            %r{.*<span.*class=\"badge\".*>.*#{p.likers.count}.*</span>.*}mi
           )
         )
       end

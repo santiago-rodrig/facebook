@@ -26,6 +26,7 @@ RSpec.describe LikesController, type: :controller do
     sign_in(@user)
   end
 
+  # rubocop:disable Metrics/BlockLength
   describe '#like_post' do
     context 'the user owns the post' do
       before do
@@ -112,8 +113,10 @@ RSpec.describe LikesController, type: :controller do
       end
     end
   end
+  # rubocop:enable Metrics/BlockLength
 
   describe '#unlike_post' do
+    # rubocop:disable Metrics/BlockLength
     context 'the user owns the post' do
       before do
         @user.like(@post)
@@ -201,5 +204,6 @@ RSpec.describe LikesController, type: :controller do
         expect(@other_user.liked_posts.count).to eq(like_count)
       end
     end
+    # rubocop:enable Metrics/BlockLength
   end
 end

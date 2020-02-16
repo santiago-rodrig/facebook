@@ -1,7 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe UsersHelper, type: :helper do
-
   # This one plays the role of current_user
   let(:user) do
     User.create(

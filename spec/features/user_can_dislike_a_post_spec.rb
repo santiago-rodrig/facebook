@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanDislikeAPosts", type: :feature do
+RSpec.feature 'UserCanDislikeAPosts', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',
@@ -28,7 +28,7 @@ RSpec.feature "UserCanDislikeAPosts", type: :feature do
     like_count = post.likers.count
     find_link(href: unlike_post_path(post_id: post.id)).click
     expect(page).to have_current_path(post_path(post))
-    [post, user].each { |e| e.reload }
+    [post, user].each(&:reload)
     expect(post.likers.count).to eq(like_count - 1)
   end
 end

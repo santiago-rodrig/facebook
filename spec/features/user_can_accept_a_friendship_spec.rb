@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanAcceptAFriendships", type: :feature do
+# rubocop:disable Metrics/BlockLength
+RSpec.feature 'UserCanAcceptAFriendships', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',
@@ -39,7 +40,7 @@ RSpec.feature "UserCanAcceptAFriendships", type: :feature do
 
     expect(user.friends).not_to include(other_user)
     find_link(href: accept_friend_request_path(friend_id: other_user.id)).click
-    [user, other_user].each { |e| e.reload }
+    [user, other_user].each(&:reload)
     expect(user.friends).to include(other_user)
 
     friendship_from = Friendship.find_by(
@@ -54,3 +55,4 @@ RSpec.feature "UserCanAcceptAFriendships", type: :feature do
     expect(friendship_to).to be_confirmed
   end
 end
+# rubocop:enable Metrics/BlockLength

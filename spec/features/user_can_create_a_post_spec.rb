@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanCreateAPosts", type: :feature do
+RSpec.feature 'UserCanCreateAPosts', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',

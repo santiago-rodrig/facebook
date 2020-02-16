@@ -1,6 +1,7 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanCommentAPosts", type: :feature do
+# rubocop:disable Metrics/BlockLength
+RSpec.feature 'UserCanCommentAPosts', type: :feature do
   let(:user) do
     User.create(
       email: 'bob@example.com',
@@ -27,7 +28,7 @@ RSpec.feature "UserCanCommentAPosts", type: :feature do
     expect(page).to have_content('What do you think?')
 
     expect(page.html).to match(
-      /.*<label.*for="comment_body".*>.*What do you think\?.*<\/label>.*/mi
+      %r{.*<label.*for="comment_body".*>.*What do you think\?.*</label>.*}mi
     )
 
     expect(page).to have_selector('textarea#comment_body')
@@ -36,7 +37,7 @@ RSpec.feature "UserCanCommentAPosts", type: :feature do
     fill_in('What do you think?', with: 'Indeed is original')
     comments_count = post.commenters.count
     click_button('Comment')
-    [user, post].each { |e| e.reload }
+    [user, post].each(&:reload)
     expect(post.commenters.count).to eq(comments_count + 1)
     expect(post.commenters).to include(user)
     expect(page).to have_current_path(post_path(post))
@@ -44,3 +45,4 @@ RSpec.feature "UserCanCommentAPosts", type: :feature do
     expect(page).to have_content('Indeed is original')
   end
 end
+# rubocop:enable Metrics/BlockLength

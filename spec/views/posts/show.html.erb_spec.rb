@@ -1,6 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe 'posts/show', type: :view do
+  # rubocop:disable Metrics/BlockLength
   before do
     @user = User.create(
       email: 'bob@example.com',
@@ -26,17 +27,17 @@ RSpec.describe 'posts/show', type: :view do
     )
 
     Comment.create([
-      {
-        commenter_id: @user.id,
-        commented_post_id: @post.id,
-        body: 'This post has content'
-      },
-      {
-        commenter_id: @jen.id,
-        commented_post_id: @post.id,
-        body: 'Indeed it has'
-      }
-    ])
+                     {
+                       commenter_id: @user.id,
+                       commented_post_id: @post.id,
+                       body: 'This post has content'
+                     },
+                     {
+                       commenter_id: @jen.id,
+                       commented_post_id: @post.id,
+                       body: 'Indeed it has'
+                     }
+                   ])
 
     @comments = @post.comments.order('created_at DESC')
     assign(:post, @post)
@@ -51,7 +52,7 @@ RSpec.describe 'posts/show', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<h1.*>.*#{@post.title}.*<\/h1>.*/mi
+          %r{.*<h1.*>.*#{@post.title}.*</h1>.*}mi
         )
       )
     end
@@ -61,7 +62,7 @@ RSpec.describe 'posts/show', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<p.*>.*#{@user.full_name}.*#{@post.created_at}.*<\/p>.*/mi
+          %r{.*<p.*>.*#{@user.full_name}.*#{@post.created_at}.*</p>.*}mi
         )
       )
     end
@@ -71,7 +72,7 @@ RSpec.describe 'posts/show', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<p.*>.*#{@post.content}.*<\/p>.*/mi
+          %r{.*<p.*>.*#{@post.content}.*</p>.*}mi
         )
       )
     end
@@ -91,7 +92,7 @@ RSpec.describe 'posts/show', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<span.*class="badge".*>.*#{@post.likers.count}.*<\/span>.*/mi
+          %r{.*<span.*class="badge".*>.*#{@post.likers.count}.*</span>.*}mi
         )
       )
     end
@@ -102,7 +103,7 @@ RSpec.describe 'posts/show', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<label.*for="comment_body".*>.*What do you think\?.*<\/label>.*/mi
+          %r{.*<label.*for="comment_body".*>.*What do you think\?.*</label>.*}mi
         )
       )
 
@@ -110,7 +111,7 @@ RSpec.describe 'posts/show', type: :view do
 
       expect(rendered).to(
         match(
-          /.*<button.*type="submit".*>Comment<\/button>.*/mi
+          %r{.*<button.*type="submit".*>Comment</button>.*}mi
         )
       )
     end
@@ -121,13 +122,13 @@ RSpec.describe 'posts/show', type: :view do
       @comments.each do |c|
         expect(rendered).to(
           match(
-            /.*<div.*class="panel-heading".*>.*#{c.commenter.full_name}.*#{c.created_at.utc}.*<\/div>/mi
+            %r{.*<div.*class="panel-heading".*>.*#{c.commenter.full_name}.*#{c.created_at.utc}.*</div>}mi
           )
         )
 
         expect(rendered).to(
           match(
-            /.*<div.*class="panel-body".*>.*#{c.body}.*<\/div>.*/mi
+            %r{.*<div.*class="panel-body".*>.*#{c.body}.*</div>.*}mi
           )
         )
       end
@@ -186,7 +187,7 @@ RSpec.describe 'posts/show', type: :view do
       end
     end
   end
-
+  # rubocop:enable Metrics/BlockLength
 
   context 'logged in user is the author' do
     before do

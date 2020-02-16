@@ -12,7 +12,7 @@ RSpec.describe Users::SessionsController, type: :controller do
       )
 
       sign_in(@user)
-      @request.env["devise.mapping"] = Devise.mappings[:user]
+      @request.env['devise.mapping'] = Devise.mappings[:user]
       delete(:destroy)
     end
 

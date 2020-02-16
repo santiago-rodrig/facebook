@@ -1,8 +1,8 @@
 require 'rails_helper'
 
-RSpec.feature "UserCanSignOuts", type: :feature do
+RSpec.feature 'UserCanSignOuts', type: :feature do
   it 'signs out a user' do
-    user = User.create(
+    User.create(
       email: 'bob@example.com',
       first_name: 'bob',
       last_name: 'sinclair',

@@ -51,11 +51,11 @@ RSpec.describe FriendshipsHelper, type: :helper do
 
     context 'user has not asked the friendship yet' do
       it 'returns a button to ask the friendship' do
-ask_button = <<-BTN
+        ask_button = <<-BTN
   <div class="cleared pull-right">
     #{link_to 'Ask friendship', ask_friendship_path(friend_id: friend.id), method: :post, class: 'btn btn-primary'}
   </div>
-BTN
+        BTN
 
         expect(helper.ask_friendship(user, friend)).to(
           eq(
@@ -71,13 +71,13 @@ BTN
       let(:requests) { Friendship.requesters(user) }
 
       it 'returns an alert telling that the user has no friend requests' do
-msg_emty = <<-EMPTY
+        msg_emty = <<-EMPTY
   <div class="col-sm-6 col-sm-offset-3">
     <div class="alert alert-info">
       You have no friend requests.
     </div>
   </div>
-EMPTY
+        EMPTY
         expect(helper.put_requests(requests)).to(
           eq(msg_emty.html_safe)
         )
@@ -94,7 +94,7 @@ EMPTY
       it 'renders the request for each requester partial' do
         expect(helper.put_requests(requests)).to(
           eq(
-            render partial: 'friendships/request', collection: requests
+            render(partial: 'friendships/request', collection: requests)
           )
         )
       end
