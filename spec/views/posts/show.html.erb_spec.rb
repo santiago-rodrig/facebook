@@ -139,7 +139,7 @@ RSpec.describe 'posts/show', type: :view do
       end
 
       it 'displays a link to like the post' do
-        url = like_post_path(user_id: @user.id, post_id: @post.id)
+        url = like_post_path(post_id: @post.id)
 
         expect(rendered).to(
           have_selector(
@@ -149,7 +149,7 @@ RSpec.describe 'posts/show', type: :view do
       end
 
       it 'displays a disabled link to dislike the post' do
-        url = unlike_post_path(user_id: @user.id, post_id: @post.id)
+        url = unlike_post_path(post_id: @post.id)
 
         expect(rendered).to(
           have_selector(
@@ -166,7 +166,7 @@ RSpec.describe 'posts/show', type: :view do
       end
 
       it 'displays a disabled link to like the post' do
-        url = like_post_path(user_id: @user.id, post_id: @post.id)
+        url = like_post_path(post_id: @post.id)
 
         expect(rendered).to(
           have_selector(
@@ -176,7 +176,7 @@ RSpec.describe 'posts/show', type: :view do
       end
 
       it 'displays a link to dislike the post' do
-        url = unlike_post_path(user_id: @user.id, post_id: @post.id)
+        url = unlike_post_path(post_id: @post.id)
 
         expect(rendered).to(
           have_selector(
