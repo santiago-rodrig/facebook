@@ -64,7 +64,7 @@ createdb --owner user_name user_name
 Now you can `exit` from the **postgres** user session and go back to your
 regular user session.
 
-Now it is time to create the `.env` file containing the **SHELL variables** that
+It is time to create the `.env` file containing the **SHELL variables** that
 are going to be used to create the necessary databases that the app needs. Use
 this template.
 
