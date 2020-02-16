@@ -41,7 +41,7 @@ sudo -iu postgres
 ```
 
 Now you are in the **postgres** account, and you can create users, databases,
-alter user permission, etc. issue the command `psql` from the current shell
+alter user permissions, etc. issue the command `psql` from the current shell
 session.
 
 #### Important
@@ -51,6 +51,7 @@ login normally)
 
 ```sql
 CREATE USER user_name WITH CREATEDB PASSWORD 'user_password';
+\q
 ```
 
 In order to be able to login to `psql` from your regular user you need to create
@@ -64,8 +65,8 @@ Now you can `exit` from the **postgres** user session and go back to your
 regular user session.
 
 Now it is time to create the `.env` file containing the **SHELL variables** that
-are going to be used to create the necessary databases that the app needs. Paste
-(and replace the necessary things) this template.
+are going to be used to create the necessary databases that the app needs. Use
+this template.
 
 ```bash
 POSTGRES_USER='user_name'
@@ -101,9 +102,9 @@ run the tests in real time when you change things.
 ## Acknowledgements
 
 This project is a task specified in
-[The Odin Project](https://www.theodinproject.com/courses/ruby-on-rails/lessons/final-project).
-And other things are specifications of the
-[Microverse program](https://www.microverse.org/)
+[The Odin Project](https://www.theodinproject.com/courses/ruby-on-rails/lessons/final-project),
+and other things are specifications of the
+[Microverse program](https://www.microverse.org/).
 
 ## Contact
 
