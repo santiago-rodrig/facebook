@@ -1,12 +1,18 @@
 class User < ApplicationRecord
+  # set image_url on saving
   before_save -> { self.image_url = 'https://www.gravatar.com/avatar/' + Digest::MD5.hexdigest(email) }
+  # posts association
   has_many :posts, foreign_key: 'author_id'
+  # likes association
   has_many :likes, foreign_key: 'liker_id'
   has_many :liked_posts, through: :likes, source: :liked_post
+  # comments association
   has_many :comments, foreign_key: 'commenter_id'
   has_many :commented_posts, through: :comments, source: :commented_post
+  # friends association
   has_many :friendships, foreign_key: 'user_id'
   has_many :friends, through: :friendships, source: :friend
+  # validations
   validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -49,15 +55,23 @@ class User < ApplicationRecord
     Friendship.requesters(self).count
   end
 
-  def real_friends
-    ids = Friendship.where('(user_id = ? AND confirmed) OR (friend_id = ? AND confirmed)', id, id).map do |f|
-      if f.user.id == id
-        f.friend_id
-      else
-        f.user_id
-      end
-    end
+  def accept_friend(friend)
+    friends << friend
+    friendships.find_by(friend_id: friend.id).toggle!(:confirmed)
+    friend.friendships.find_by(friend_id: id).toggle!(:confirmed)
+  end
 
+  def reject_friend(friend)
+    friend.friends.delete(self)
+  end
+
+  def cancel_friend(friend)
+    friend.friends.delete(self)
+    friends.delete(friend)
+  end
+
+  def real_friends
+    ids = friendships.where('confirmed').map(&:friend_id)
     User.where(id: ids)
   end
 

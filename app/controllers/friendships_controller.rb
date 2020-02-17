@@ -1,41 +1,36 @@
 class FriendshipsController < ApplicationController
   def friend_requests
-    @user = User.find(params[:user_id])
-    @requests = Friendship.requesters(@user)
+    @requests = Friendship.requesters(current_user)
   end
 
   def accept_friend_request
-    @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-    @friend.friendships.find_by(friend_id: @user.id).toggle!(:confirmed)
+    current_user.accept_friend(@friend)
     flash[:success] = "you and #{@friend.full_name} are now friends!"
 
-    redirect_to friend_requests_path(user_id: @user.id)
+    redirect_to friend_requests_path
   end
 
   def reject_friend_request
-    @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-    @friend.friendships.find_by(friend_id: @user.id).destroy
+    current_user.reject_friend(@friend)
     flash[:info] = "you rejected #{@friend.full_name} friendship proposal"
 
-    redirect_to friend_requests_path(user_id: @user.id)
+    redirect_to friend_requests_path
   end
 
   def ask_friendship
-    @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
-    @user.friends << @friend
+    current_user.friends << @friend
     flash[:info] = "a friendship proposal has been sent to #{@friend.full_name}"
 
     redirect_to users_path
   end
 
   def friends_index
-    @user = User.find(params[:user_id])
     @title = 'Your friends'
-    @partial = 'friend'
-    @users = @user.real_friends.paginate(page: params[:page], per_page: 12)
+    @partial = 'friendships/friend'
+    @users = current_user.real_friends.paginate(page: params[:page], per_page: 12)
 
     if params[:page]
       @first_half = @users.offset(12 * (params[:page].to_i - 1)).first(6)
@@ -49,20 +44,10 @@ class FriendshipsController < ApplicationController
   end
 
   def cancel_friendship
-    @user = User.find(params[:user_id])
     @friend = User.find(params[:friend_id])
+    current_user.cancel_friend(@friend)
+    flash[:info] = "you and #{@friend.full_name} are no longer friends :("
 
-    @friend.friendships.reject do |f|
-      f.friend.id == @user.id
-    end
-
-    @user.friendships.reject do |f|
-      f.friend.id == @friend.id
-    end
-
-    @friend.friends.delete(@user)
-    @user.friends.delete(@friend)
-
-    redirect_to friends_path(user_id: @user.id)
+    redirect_to friends_path
   end
 end

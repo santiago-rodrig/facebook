@@ -5,6 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+ruby '2.6.5'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.6'
 # Use sqlite3 as the database for Active Record
@@ -51,28 +53,34 @@ gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 # Pagination with bootstrap
 gem 'will_paginate', '~> 3.1.0'
 gem 'will_paginate-bootstrap'
+# Concurrency
+gem 'concurrent-ruby', '1.1.5'
+# gem 'concurrent-ruby', git: 'https://github.com/ruby-concurrency/concurrent-ruby.git', branch: 'master'
+gem 'nokogiri', '1.10.5'
+
+group :development, :test do
+  gem 'database_cleaner'
+  gem 'rspec-rails'
+end
 
 group :development do
+  # debugging with byebug controller actions
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-end
-
-group :test do
-  gem 'capybara', '~> 2.13'
-  gem 'guard'
-  gem 'guard-minitest'
-  gem 'minitest'
-  gem 'minitest-reporters'
-  gem 'rails-controller-testing'
-  gem 'selenium-webdriver'
-end
-
-group :development do
   # Access an IRB console on exception pages or by using <%= console %> anywhere in the code.
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'web-console', '>= 3.3.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
+  # automated testing with guard using rspec
+  # gem 'guard'
+  gem 'guard-rspec', require: false
+end
+
+group :test do
+  gem 'capybara', '~> 2.13'
+  gem 'rails-controller-testing'
+  gem 'selenium-webdriver'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -1,7 +1,7 @@
 <% if current_user == @user %>
-  <h1 class="mb-3 text-center">Your Profile</h1>
+<h1 class="mb-3 text-center">Your Profile</h1>
 <% else %>
-  <h1 class="mb-3 text-center"><%= @user.full_name %> Profile</h1>
+<h1 class="mb-3 text-center"><%= @user.full_name %> Profile</h1>
 <% end %>
 <div class="row">
   <div class="col-sm-3 col-md-2">
@@ -18,9 +18,9 @@
       <dd><%= @user.total_likes.to_s %></dd>
     </dl>
     <% if current_user == @user %>
-      <div>
-        <%= link_to 'Edit account (email and password)', edit_user_registration_path(@user) %>
-      </div>
+    <div>
+      <%= link_to 'Edit account (email and password)', edit_user_registration_path %>
+    </div>
     <% end %>
   </div>
   <div class="col-sm-4 col-md-7">
@@ -38,28 +38,28 @@
       <dd><%= @user.birthday %></dd>
     </dl>
     <% if current_user == @user %>
-      <div>
-        <%= link_to 'Edit user information', edit_user_path(@user) %>
-      </div>
+    <div>
+      <%= link_to 'Edit user information', edit_user_path(@user) %>
+    </div>
     <% end %>
   </div>
-  <div class="col-xs-12">
-    <h2 class="mb-2 mt-3">Posts by <%= @user.full_name %></h2>
-  </div>
+</div>
+<h2 class="mb-2 mt-3">Posts by <%= @user.full_name %></h2>
+<div class="row">
   <% if @posts.any? %>
-    <div class="col-md-6">
-      <%= render partial: 'post', collection: @first_half %>
-    </div>
-    <div class="col-md-6">
-      <%= render partial: 'post', collection: @second_half %>
-    </div>
+  <div class="col-md-6">
+    <%= render partial: 'post', collection: @first_half %>
+  </div>
+  <div class="col-md-6">
+    <%= render partial: 'post', collection: @second_half %>
+  </div>
   <% else %>
-    <div class="col-md-6">
-      <div class="alert alert-info">
-        You have no posts,
-        <%= link_to 'create one', new_post_path, class: 'alert-link' %>!
-      </div>
+  <div class="col-sm-6">
+    <div class="alert alert-info" role="alert">
+      You have no posts,
+      <%= link_to 'create one', new_post_path, class: 'alert-link' %>!
     </div>
+  </div>
   <% end %>
 </div>
 <div align="center">
