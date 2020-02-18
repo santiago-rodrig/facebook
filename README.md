@@ -33,9 +33,7 @@ The live version of the app is in the following
 First clone the repository to any location you prefer.
 
 ```bash
-git clone --single-branch --branch feature/heroku-deploy \
-https://github.com/santiago-rodrig/facebook.git && \
-cd facebook
+git clone https://github.com/santiago-rodrig/facebook.git && cd facebook
 ```
 
 Now, because this Rails app uses PostgreSQL, you need to setup your PostgreSQL
