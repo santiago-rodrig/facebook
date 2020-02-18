@@ -5,6 +5,11 @@ Ruby on Rails concepts to develop a social network application
 (yes, another one). Right below there is a list of the features this project
 has.
 
+#### Important
+
+The live version of the app is in the following
+[url](https://still-beyond-48768.herokuapp.com).
+
 ## Features
 
 - **users** registration, authentication, edition
@@ -28,7 +33,7 @@ has.
 First clone the repository to any location you prefer.
 
 ```bash
-git clone --single-branch --branch feature/omniauth \
+git clone --single-branch --branch feature/heroku-deploy \
 https://github.com/santiago-rodrig/facebook.git && \
 cd facebook
 ```
