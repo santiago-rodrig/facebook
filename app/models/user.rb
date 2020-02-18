@@ -12,6 +12,8 @@ class User < ApplicationRecord
   # friends association
   has_many :friendships, foreign_key: 'user_id'
   has_many :friends, through: :friendships, source: :friend
+  # validations
+  validates :first_name, :last_name, presence: true
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -23,8 +25,6 @@ class User < ApplicationRecord
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
-      user.first_name = first_name_from_auth(auth.info.name)
-      user.last_name = last_name_from_auth(auth.info.name)
       # If you are using confirmable and the provider(s) you use validate emails,
       # uncomment the line below to skip the confirmation emails.
       # user.skip_confirmation!
@@ -32,9 +32,7 @@ class User < ApplicationRecord
   end
 
   def full_name
-    return 'Anonymous' unless first_name || last_name
-
-    first_name.to_s + ' ' + last_name.to_s
+    first_name + ' ' + last_name
   end
 
   def like(post)
@@ -81,15 +79,5 @@ class User < ApplicationRecord
     ids = real_friends.map(&:id)
     ids << id
     Post.where(author_id: ids)
-  end
-
-  private
-
-  def self.first_name_from_auth(name)
-    name.match(/(\S+)/).captures.first
-  end
-
-  def self.last_name_from_auth(name)
-    name.match(/.*\s+(\S+).*/).captures.first
   end
 end
