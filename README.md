@@ -28,7 +28,7 @@ has.
 First clone the repository to any location you prefer.
 
 ```bash
-git clone --single-branch --branch feature/friendships \
+git clone --single-branch --branch feature/omniauth \
 https://github.com/santiago-rodrig/facebook.git && \
 cd facebook
 ```
