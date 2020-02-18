@@ -27,5 +27,5 @@ test:
 
 production:
   <<: *default
-  host: https://evening-tor-25650.herokuapp.com
+  host: https://still-beyond-48768.herokuapp.com
   database: <%= ENV['POSTGRES_DB'] %>
