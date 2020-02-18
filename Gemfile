@@ -46,9 +46,9 @@ gem 'bootstrap-sass', '~> 3.4.1'
 gem 'jquery-rails'
 # Nice tabular formatting in console
 gem 'hirb'
-# Rubocop for code styling
+# Rubocop for ruby code styling linting
 gem 'rubocop'
-# Faker for populating the database
+# Faker for populating the database with fake data
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
 # Pagination with bootstrap
 gem 'will_paginate', '~> 3.1.0'
@@ -56,11 +56,14 @@ gem 'will_paginate-bootstrap'
 # Concurrency
 gem 'concurrent-ruby', '1.1.5'
 # gem 'concurrent-ruby', git: 'https://github.com/ruby-concurrency/concurrent-ruby.git', branch: 'master'
+# nokogiri for view specs
 gem 'nokogiri', '1.10.5'
 
 group :development, :test do
-  gem 'database_cleaner'
-  gem 'rspec-rails'
+  gem 'database_cleaner' # clean the database after each example
+  gem 'rspec-rails' # tests that use RSpec
+  # populate the test database when running tests
+  gem 'factory_bot_rails', git: 'http://github.com/thoughtbot/factory_bot_rails.git', branch: 'master'
 end
 
 group :development do
@@ -78,9 +81,9 @@ group :development do
 end
 
 group :test do
-  gem 'capybara', '~> 2.13'
-  gem 'rails-controller-testing'
-  gem 'selenium-webdriver'
+  gem 'capybara', '~> 2.13' # feature testing with a browser
+  gem 'rails-controller-testing' # use the assigns(:varname) in tests
+  gem 'selenium-webdriver' # use a browser for testing
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
