@@ -26,6 +26,4 @@ test:
   database: <%= ENV['POSTGRES_TEST_DB'] %>
 
 production:
-  <<: *default
   host: https://still-beyond-48768.herokuapp.com
-  database: <%= ENV['POSTGRES_DB'] %>
