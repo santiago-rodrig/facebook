@@ -83,6 +83,8 @@ class User < ApplicationRecord
     Post.where(author_id: ids)
   end
 
+  private
+
   def self.first_name_from_auth(name)
     name.match(/(\S+)/).captures.first
   end
