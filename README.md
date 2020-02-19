@@ -30,65 +30,17 @@ The live version of the app is in the following
 
 ### Steps
 
-First clone the repository to any location you prefer.
+1. Clone the repository to any location you prefer.
 
 ```bash
 git clone https://github.com/santiago-rodrig/facebook.git && cd facebook
 ```
 
-Now, because this Rails app uses PostgreSQL, you need to setup your PostgreSQL
-account. For that, you have to start PostgreSQL with the administrative account
-**postgres**.
+2. Setup PostgreSQL. Read this [wiki page](https://github.com/santiago-rodrig/facebook/wiki/PostgreSQL-setup) to get information on how to do it.
 
-```bash
-sudo -iu postgres
-```
+3. Create the `.env` file that specifies the environment variables used by the application. Read this [wiki page](https://github.com/santiago-rodrig/facebook/wiki/Environment-variables) to get informed of the process.
 
-Now you are in the **postgres** account, and you can create users, databases,
-alter user permissions, etc. issue the command `psql` from the current shell
-session.
-
-#### Important
-
-The user name should be the same as your current user name (the one you use to
-login normally)
-
-```sql
-CREATE USER user_name WITH CREATEDB PASSWORD 'user_password';
-\q
-```
-
-In order to be able to login to `psql` from your regular user you need to create
-a database with the same name as the new user created.
-
-```bash
-createdb --owner user_name user_name
-```
-
-Now you can `exit` from the **postgres** user session and go back to your
-regular user session.
-
-It is time to create the `.env` file containing the **SHELL variables** that
-are going to be used to create the necessary databases that the app needs. Use
-this template.
-
-```bash
-POSTGRES_USER='user_name'
-# by default is the current user name
-POSTGRES_PASSWORD='user_password'
-POSTGRES_DB='facebook' # change this if you want
-POSTGRES_TEST_DB='facebook_test' # change this if you want
-APP_ID='facebook_app_id'
-APP_SECRET='facebook_app_secret'
-```
-
-The last two **SHELL variables** are the ones that hold the **Facebook app**
-credentials, these are necessary in order for the app to be able to allow users
-login using their Facebook account credentials. Go to
-[Facebook developers](https://developers.facebook.com/), login, and create a new
-app, then fill in the variables in the `.env` file.
-
-Now, it's time to generate the databases with the Rails generators.
+4. Generate the databases with the Rails generators.
 
 ```bash
 rails db:setup && rails db:migrate && ENV=test rails db:setup && \
