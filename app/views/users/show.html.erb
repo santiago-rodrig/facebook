@@ -1,0 +1,67 @@
+<% if current_user == @user %>
+<h1 class="mb-3 text-center">Your Profile</h1>
+<% else %>
+<h1 class="mb-3 text-center"><%= @user.full_name %> Profile</h1>
+<% end %>
+<div class="row">
+  <div class="col-sm-3 col-md-2">
+    <img src="<%= @user.image_url + '?s=120' %>" alt="profile image" class="img-thumbnail">
+  </div>
+  <div class="col-sm-5 col-md-3">
+    <h3>Account</h3>
+    <dl>
+      <dt>Email</dt>
+      <dd><%= @user.email %></dd>
+      <dt>Posts</dt>
+      <dd><%= @user.posts.count.to_s %></dd>
+      <dt>Likes</dt>
+      <dd><%= @user.total_likes.to_s %></dd>
+    </dl>
+    <% if current_user == @user %>
+    <div>
+      <%= link_to 'Edit account (email and password)', edit_user_registration_path %>
+    </div>
+    <% end %>
+  </div>
+  <div class="col-sm-4 col-md-7">
+    <h3>User</h3>
+    <dl class="user-info">
+      <dt>First name</dt>
+      <dd><%= @user.first_name %></dd>
+      <dt>Last name</dt>
+      <dd><%= @user.last_name %></dd>
+      <dt>Phone number</dt>
+      <dd><%= @user.phone %></dd>
+      <dt>Gender</dt>
+      <dd><%= @user.gender %></dd>
+      <dt>Birthday</dt>
+      <dd><%= @user.birthday %></dd>
+    </dl>
+    <% if current_user == @user %>
+    <div>
+      <%= link_to 'Edit user information', edit_user_path(@user) %>
+    </div>
+    <% end %>
+  </div>
+</div>
+<h2 class="mb-2 mt-3">Posts by <%= @user.full_name %></h2>
+<div class="row">
+  <% if @posts.any? %>
+  <div class="col-md-6">
+    <%= render partial: 'post', collection: @first_half %>
+  </div>
+  <div class="col-md-6">
+    <%= render partial: 'post', collection: @second_half %>
+  </div>
+  <% else %>
+  <div class="col-sm-6">
+    <div class="alert alert-info" role="alert">
+      You have no posts,
+      <%= link_to 'create one', new_post_path, class: 'alert-link' %>!
+    </div>
+  </div>
+  <% end %>
+</div>
+<div align="center">
+  <%= will_paginate @posts %>
+</div>

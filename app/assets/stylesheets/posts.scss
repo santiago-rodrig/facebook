@@ -1,0 +1,32 @@
+// Place all the styles related to the Posts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.post-content p:last-child {
+  margin-bottom: 0 !important;
+}
+
+.post-info {
+  @media (max-width: 992px) {
+    padding-top: 10px !important;
+  }
+}
+
+div.panel.actions {
+  margin-bottom: 0 !important;
+  margin-right: auto;
+  margin-left: auto;
+  max-width: 200px;
+}
+
+.like-count {
+  display: flex;
+
+  .badge {
+    margin-left: 8px;
+  }
+
+  .glyphicon {
+    margin-top: 3px;
+  }
+}

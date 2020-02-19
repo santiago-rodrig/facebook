@@ -7,8 +7,11 @@
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-
-  <body>
-    <%= yield %>
+  <%= body_painted_if_devise(controller.controller_name, controller.action_name) %>
+    <%= navigation_if_logged(user_signed_in?) %>
+    <div class="container">
+      <%= render partial: 'layouts/alerts' %>
+      <%= yield %>
+    </div>
   </body>
 </html>

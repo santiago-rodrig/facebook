@@ -1,0 +1,18 @@
+<div class="col-sm-6 col-md-4">
+  <div class="well clearfix">
+    <%= link_to "<img src='#{friend.image_url}' alt='profile image' class='pull-left mr-3 img-thumbnail'>".html_safe, user_path(friend) %>
+    <dl class="user-info pull-left">
+      <dt>Name</dt>
+      <dd><%= friend.full_name %></dd>
+      <dt>Posts</dt>
+      <dd><%= friend.posts.count %></dd>
+      <dt>Likes</dt>
+      <dd><%= friend.total_likes %></dd>
+    </dl>
+    <% if %>
+      <div class="cleared pull-right">
+        <%= link_to 'Cancel friendship', cancel_friendship_path(friend_id: friend.id), method: :delete, class: 'btn btn-danger' %>
+      </div>
+    <% end %>
+  </div>
+</div>

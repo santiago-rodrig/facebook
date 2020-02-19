@@ -1,0 +1,16 @@
+<div class="col-sm-6 col-md-4">
+  <div class="well clearfix">
+    <%= link_to "<img src='#{user.image_url}' alt='profile image' class='pull-left mr-3 img-thumbnail'>".html_safe, user_path(user) %>
+    <dl class="user-info pull-left">
+      <dt>Name</dt>
+      <dd><%= user.full_name %></dd>
+      <dt>Posts</dt>
+      <dd><%= user.posts.count %></dd>
+      <dt>Likes</dt>
+      <dd><%= user.total_likes %></dd>
+      <dt>Relation</dt>
+      <dd><mark><%= relation_with(current_user, user) %></mark></dd>
+    </dl>
+    <%= ask_friendship(current_user, user) %>
+  </div>
+</div>

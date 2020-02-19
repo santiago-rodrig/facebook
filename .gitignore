@@ -21,3 +21,7 @@
 /yarn-error.log
 
 .byebug_history
+.env
+
+# ignore examples rspec file
+/spec/examples.txt
