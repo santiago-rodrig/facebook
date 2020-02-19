@@ -115,3 +115,7 @@ and other things are specifications of the
 If you want to reach out to me you can visit
 [my Github profile](https://github.com/santiago-rodrig) or
 [the LinkedIn one](https://www.linkedin.com/in/santiago-andr%C3%A9s-308a5b190?lipi=urn%3Ali%3Apage%3Ad_flagship3_profile_view_base_contact_details%3BtYchDkD4S7eoM%2BGocwG3SA%3D%3D).
+
+## License
+
+This project is licensed under the [MIT](https://github.com/santiago-rodrig/facebook/blob/master/LICENSE.md) license.
