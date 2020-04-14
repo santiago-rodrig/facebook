@@ -8,7 +8,7 @@ has.
 #### Important
 
 The live version of the app is in the following
-[url](https://still-beyond-48768.herokuapp.com).
+[url](https://facebug-srodrig.herokuapp.com/).
 
 ## Features
 
