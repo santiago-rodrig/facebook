@@ -5,7 +5,7 @@ Ruby on Rails concepts to develop a social network application
 (yes, another one). Right below there is a list of the features this project
 has.
 
-![application demo gif](./doc/demo.gif)
+![application demo gif](./docs/demo.gif)
 
 #### Important
 
