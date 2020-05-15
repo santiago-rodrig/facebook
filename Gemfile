@@ -56,7 +56,7 @@ gem 'will_paginate-bootstrap'
 # Concurrency
 gem 'concurrent-ruby', '1.1.5'
 # gem 'concurrent-ruby', git: 'https://github.com/ruby-concurrency/concurrent-ruby.git', branch: 'master'
-gem 'nokogiri', '1.10.5'
+gem 'nokogiri', '1.10.8'
 
 group :development, :test do
   gem 'database_cleaner'
