@@ -76,6 +76,32 @@ RSpec.describe UsersController, type: :controller do
     end
   end
 
+  describe '#edit' do
+    before do
+      get :edit, params: { id: @bob.id }
+    end
+
+    it 'gets' do
+      expect(response).to have_http_status(:success)
+    end
+
+    context 'not the same user' do
+      before do
+        get :edit, params: { id: @alice.id }
+      end
+
+      it 'redirects to root' do
+        expect(response).to redirect_to(root_url)
+      end
+
+      it 'sets a flash message' do
+        expect(@controller.flash[:danger]).to eq(
+          'You can only edit your own account'
+        )
+      end
+    end
+  end
+
   describe '#index' do
     before do
       get :index

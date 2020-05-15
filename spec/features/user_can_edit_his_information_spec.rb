@@ -26,7 +26,6 @@ RSpec.feature 'UserCanEditHisInformations', type: :feature do
     fill_in('Last name', with: 'miller')
     select('male', from: 'Gender')
     fill_in('Phone', with: '+584242184009')
-    fill_in('Birthday', with: '11291996')
     click_button('Update user information')
     expect(page).to have_current_path(user_path(user))
     expect(page).to have_content('User updated')
@@ -35,7 +34,6 @@ RSpec.feature 'UserCanEditHisInformations', type: :feature do
     expect(user.last_name).to eq('miller')
     expect(user.gender).to eq('male')
     expect(user.phone).to eq('+584242184009')
-    expect(user.birthday).to eq(Date.new(1996, 11, 29))
   end
 end
 # rubocop:enable Metrics/BlockLength

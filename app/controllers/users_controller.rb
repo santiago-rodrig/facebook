@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :authenticate_user!
+  before_action :require_same_user, only: [:edit, :update]
 
   def index
     @title = 'All users'
@@ -48,5 +49,14 @@ class UsersController < ApplicationController
 
   def user_params
     params.require(:user).permit(:first_name, :last_name, :gender, :phone, :birthday)
+  end
+
+  def require_same_user
+    session_id = session["warden.user.user.key"][0][0]
+
+    if params[:id].to_i != session_id
+      flash[:danger] = 'You can only edit your own account'
+      redirect_to root_url
+    end
   end
 end
