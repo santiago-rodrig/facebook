@@ -28,7 +28,6 @@ The live version of the app is in the following
 - `rails` 5.1.7
 - `postgres` 12.1
 - `bundler` 2.0.2
-- `chromedriver`, make a google search for installing it in your current OS
 
 ### Steps
 

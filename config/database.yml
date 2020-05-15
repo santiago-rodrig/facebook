@@ -26,4 +26,4 @@ test:
   database: <%= ENV['POSTGRES_TEST_DB'] %>
 
 production:
-  host: https://still-beyond-48768.herokuapp.com
+  host: https://facebug-srodrig.herokuapp.com
